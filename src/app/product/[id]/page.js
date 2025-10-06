@@ -748,159 +748,1434 @@
 //   );
 // }
 
+// "use client";
+
+// import { useParams, useRouter } from "next/navigation";
+// import Image from "next/image";
+// import Link from "next/link";
+// import Navbar from "@/components/Navbar";
+// import Footer from "@/components/Footer";
+// import CakeCustomizer from "@/components/CakeCustomizer";
+// import { products } from "@/data/products";
+// import { useCart } from "@/context/CartContext";
+// import { useState } from "react";
+
+// export default function ProductDetails() {
+//   const { id } = useParams();
+//   const router = useRouter();
+//   const product = products.find((p) => String(p.id) === String(id));
+//   const { addToCart } = useCart();
+//   const [quantity, setQuantity] = useState(1);
+
+//   if (!product) return <div className="p-10">Loading or Product Not Found...</div>;
+
+//   const relatedProducts = products
+//     .filter((p) => p.category === product.category && String(p.id) !== String(product.id))
+//     .slice(0, 3);
+
+//   const handleAddToCart = () => {
+//     addToCart(product, quantity);
+//     router.push("/cart"); // ✅ redirect user to cart after adding
+//   };
+
+//   const increaseQty = () => setQuantity((prev) => prev + 1);
+//   const decreaseQty = () => setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
+
+//   const totalPrice = product.price ? product.price * quantity : 0;
+
+//   return (
+//     <>
+//       <Navbar />
+//       <section className="px-6 md:px-20 py-20 bg-red-100 min-h-screen">
+//         <div className="flex flex-col md:flex-row gap-10">
+//           <Image
+//             src={product.image}
+//             alt={product.title || product.name}
+//             width={500}
+//             height={500}
+//             className="rounded-xl shadow w-full md:w-1/2 object-cover"
+//           />
+
+//           <div className="md:w-1/2">
+//             <h1 className="text-3xl font-bold text-black">
+//               {product.title || product.name}
+//             </h1>
+//             <p className="mt-4 text-gray-700">{product.description}</p>
+
+//     {/* ✅ Normal Products */}
+// {product.category !== "Cakes" && product.category !== "cakes" && (
+//   <>
+//     {product.price && (
+//       <p className="mt-4 font-bold text-black text-xl">
+//         ₦{Number(product.price).toLocaleString()}
+//       </p>
+//     )}
+
+//     {/* Quantity Selector with +/- */}
+//     <div className="flex items-center gap-4 mt-6">
+//       <label className="text-black">Qty:</label>
+//       <div className="flex items-center gap-3">
+//         <button
+//           onClick={decreaseQty}
+//           className="px-3 py-1 bg-gray-200 text-black rounded"
+//         >
+//           -
+//         </button>
+//         <span className="px-4 py-1 border rounded bg-white">
+//           {quantity}
+//         </span>
+//         <button
+//           onClick={increaseQty}
+//           className="px-3 py-1 bg-gray-200 text-black rounded"
+//         >
+//           +
+//         </button>
+//       </div>
+//     </div>
+
+//     {/* ✅ Total Price */}
+//     <p className="mt-4 font-semibold text-black text-lg">
+//       Total: ₦{(Number(product.price) * quantity).toLocaleString()}
+//     </p>
+
+//     {/* Add to Cart Button */}
+//     <button
+//       onClick={handleAddToCart}
+//       className="mt-6 bg-red-500 text-white px-6 py-3 rounded-lg shadow hover:bg-red-600"
+//     >
+//       Add to Cart
+//     </button>
+//   </>
+// )}
+
+//             {/* ✅ Cake Products with Customizer */}
+//             {(product.category === "Cakes" || product.category === "cakes") && (
+//               <div className="mt-6">
+//                 <CakeCustomizer
+//                   product={product}
+//                   quantity={quantity}
+//                   setQuantity={setQuantity}
+//                 />
+//               </div>
+//             )}
+//           </div>
+//         </div>
+
+//         {/* Reviews */}
+//         <div className="mt-20">
+//           <h2 className="text-2xl font-bold mb-6 text-black">Customer Reviews</h2>
+//           <div className="grid md:grid-cols-3 gap-6">
+//             {[
+//               { name: "Aisha", text: "Delicious cake, beautifully presented!" },
+//               { name: "Tolu", text: "Absolutely loved it, will order again!" },
+//               { name: "Emeka", text: "Perfect for our birthday event!" },
+//             ].map((review, index) => (
+//               <div key={index} className="bg-white p-6 rounded shadow text-gray-700">
+//                 <p className="italic">"{review.text}"</p>
+//                 <p className="mt-2 font-semibold text-sm">- {review.name}</p>
+//               </div>
+//             ))}
+//           </div>
+//         </div>
+
+//         {/* Related Products */}
+//         <div className="mt-20">
+//           <h2 className="text-2xl font-bold mb-6 text-black">Related Products</h2>
+//           <div className="grid md:grid-cols-3 gap-6">
+//             {relatedProducts.map((item) => (
+//               <Link key={item.id} href={`/product/${item.id}`}>
+//                 <div className="bg-white rounded shadow hover:shadow-lg transition">
+//                   <Image
+//                     src={item.image}
+//                     alt={item.title || item.name}
+//                     width={400}
+//                     height={300}
+//                     className="rounded-t w-full h-64 object-cover"
+//                   />
+//                   <div className="p-4">
+//                     <h3 className="font-bold text-lg">{item.title || item.name}</h3>
+//                     {item.price && (
+//                       <p className="text-black font-semibold">₦{item.price}</p>
+//                     )}
+//                   </div>
+//                 </div>
+//               </Link>
+//             ))}
+//           </div>
+//         </div>
+//       </section>
+//       <Footer />
+//     </>
+//   );
+// }
+
+// 'use client';
+
+// import { useState } from 'react';
+// import Image from 'next/image';
+// import Slider from 'react-slick';
+
+// import Navbar from '@/components/Navbar';
+// import Footer from '@/components/Footer';
+// import CakeCustomizer from '@/components/CakeCustomizer';
+
+// // Slick carousel styles
+// import "slick-carousel/slick/slick.css";
+// import "slick-carousel/slick/slick-theme.css";
+
+// export default function ProductDetails({ product }: { product: any }) {
+//   const [quantity, setQuantity] = useState(1);
+
+//   const sliderSettings = {
+//     dots: true,
+//     infinite: true,
+//     speed: 400,
+//     slidesToShow: 1,
+//     slidesToScroll: 1,
+//     arrows: true,
+//     adaptiveHeight: true,
+//   };
+
+//   return (
+//     <>
+//       <Navbar />
+//       <section className="px-6 md:px-20 py-20 bg-red-100 min-h-screen">
+//         <div className="flex flex-col md:flex-row gap-10">
+//           {/* ✅ Left Column: Image Slider */}
+//           <div className="w-full md:w-1/2">
+//             {product.images && product.images.length > 0 ? (
+//               <Slider {...sliderSettings}>
+//                 {product.images.map((img: string, index: number) => (
+//                   <div key={index} className="flex justify-center">
+//                     <Image
+//                       src={img}
+//                       alt={product.title || product.name}
+//                       width={500}
+//                       height={500}
+//                       className="rounded-xl shadow object-cover"
+//                     />
+//                   </div>
+//                 ))}
+//               </Slider>
+//             ) : (
+//               <Image
+//                 src={product.image}
+//                 alt={product.title || product.name}
+//                 width={500}
+//                 height={500}
+//                 className="rounded-xl shadow object-cover"
+//               />
+//             )}
+//           </div>
+
+//           {/* ✅ Right Column: Product Info */}
+//           <div className="md:w-1/2">
+//             <h1 className="text-3xl font-bold mb-4">{product.title || product.name}</h1>
+//             <p className="text-lg font-semibold text-pink-600 mb-2">
+//               ₦{Number(product.price).toLocaleString()}
+//             </p>
+//             <p className="text-gray-700 mb-6">
+//               {product.description || "Delicious custom-made cake perfect for your occasions."}
+//             </p>
+
+//             {/* ✅ Cake Customizer only for Cakes */}
+//             {(product.category === "Cakes" || product.category === "cakes") && (
+//               <div className="mt-6">
+//                 <CakeCustomizer
+//                   product={product}
+//                   quantity={quantity}
+//                   setQuantity={setQuantity}
+//                 />
+//               </div>
+//             )}
+//           </div>
+//         </div>
+
+//         {/* ✅ Placeholder for reviews + related products */}
+//         <div className="mt-20">
+//           <h2 className="text-2xl font-bold mb-4">Customer Reviews</h2>
+//           <p className="text-gray-600">Reviews section coming soon...</p>
+//         </div>
+
+//         <div className="mt-20">
+//           <h2 className="text-2xl font-bold mb-4">Related Products</h2>
+//           <p className="text-gray-600">Related products section coming soon...</p>
+//         </div>
+//       </section>
+//       <Footer />
+//     </>
+//   );
+// }
+
+// 'use client';
+
+// import { useState } from 'react';
+// import Image from 'next/image';
+// import Slider from 'react-slick';
+
+// import Navbar from '@/components/Navbar';
+// import Footer from '@/components/Footer';
+// import CakeCustomizer from '@/components/CakeCustomizer';
+
+// // Slick carousel styles
+// import "slick-carousel/slick/slick.css";
+// import "slick-carousel/slick/slick-theme.css";
+
+// export default function ProductDetails({ product }) {
+//   const [quantity, setQuantity] = useState(1);
+
+//   const sliderSettings = {
+//     dots: true,
+//     infinite: true,
+//     speed: 400,
+//     slidesToShow: 1,
+//     slidesToScroll: 1,
+//     arrows: true,
+//     adaptiveHeight: true,
+//   };
+
+//   return (
+//     <>
+//       <Navbar />
+//       <section className="px-6 md:px-20 py-20 bg-red-100 min-h-screen">
+//         <div className="flex flex-col md:flex-row gap-10">
+//           {/* ✅ Left Column: Image Slider */}
+//           <div className="w-full md:w-1/2">
+//             {product.images && product.images.length > 0 ? (
+//               <Slider {...sliderSettings}>
+//                 {product.images.map((img, index) => (
+//                   <div key={index} className="flex justify-center">
+//                     <Image
+//                       src={img}
+//                       alt={product.title || product.name}
+//                       width={500}
+//                       height={500}
+//                       className="rounded-xl shadow object-cover"
+//                     />
+//                   </div>
+//                 ))}
+//               </Slider>
+//             ) : (
+//               <Image
+//                 src={product.image}
+//                 alt={product.title || product.name}
+//                 width={500}
+//                 height={500}
+//                 className="rounded-xl shadow object-cover"
+//               />
+//             )}
+//           </div>
+
+//           {/* ✅ Right Column: Product Info */}
+//           <div className="md:w-1/2">
+//             <h1 className="text-3xl font-bold mb-4">{product.title || product.name}</h1>
+//             <p className="text-lg font-semibold text-pink-600 mb-2">
+//               ₦{Number(product.price).toLocaleString()}
+//             </p>
+//             <p className="text-gray-700 mb-6">
+//               {product.description || "Delicious custom-made cake perfect for your occasions."}
+//             </p>
+
+//             {/* ✅ Cake Customizer only for Cakes */}
+//             {(product.category === "Cakes" || product.category === "cakes") && (
+//               <div className="mt-6">
+//                 <CakeCustomizer
+//                   product={product}
+//                   quantity={quantity}
+//                   setQuantity={setQuantity}
+//                 />
+//               </div>
+//             )}
+//           </div>
+//         </div>
+
+//         {/* ✅ Placeholder for reviews + related products */}
+//         <div className="mt-20">
+//           <h2 className="text-2xl font-bold mb-4">Customer Reviews</h2>
+//           <p className="text-gray-600">Reviews section coming soon...</p>
+//         </div>
+
+//         <div className="mt-20">
+//           <h2 className="text-2xl font-bold mb-4">Related Products</h2>
+//           <p className="text-gray-600">Related products section coming soon...</p>
+//         </div>
+//       </section>
+//       <Footer />
+//     </>
+//   );
+// }
+
+// 'use client';
+
+// import { useState } from 'react';
+// import Image from 'next/image';
+// import Slider from 'react-slick';
+
+// import Navbar from '@/components/Navbar';
+// import Footer from '@/components/Footer';
+// import CakeCustomizer from '@/components/CakeCustomizer';
+
+// // ✅ Slick carousel styles
+// import "slick-carousel/slick/slick.css";
+// import "slick-carousel/slick/slick-theme.css";
+
+// export default function ProductDetails({ product }) {
+//   const [quantity, setQuantity] = useState(1);
+
+//   // ✅ Slider settings
+//   const sliderSettings = {
+//     dots: true,
+//     infinite: true,
+//     speed: 400,
+//     slidesToShow: 1,
+//     slidesToScroll: 1,
+//     arrows: true,
+//     adaptiveHeight: true,
+//   };
+
+//   return (
+//     <>
+//       <Navbar />
+//       <section className="px-6 md:px-20 py-20 bg-red-100 min-h-screen">
+//         <div className="flex flex-col md:flex-row gap-10">
+//           {/* ✅ Left Column: Image Slider */}
+//           <div className="w-full md:w-1/2">
+//             {product?.images && product.images.length > 0 ? (
+//               <Slider {...sliderSettings}>
+//                 {product.images.map((img, index) => (
+//                   <div key={index} className="flex justify-center">
+//                     <Image
+//                       src={img}
+//                       alt={product.title || product.name}
+//                       width={500}
+//                       height={500}
+//                       className="rounded-xl shadow object-cover"
+//                     />
+//                   </div>
+//                 ))}
+//               </Slider>
+//             ) : (
+//               <Image
+//                 src={product.image}
+//                 alt={product.title || product.name}
+//                 width={500}
+//                 height={500}
+//                 className="rounded-xl shadow object-cover"
+//               />
+//             )}
+//           </div>
+
+//           {/* ✅ Right Column: Product Info */}
+//           <div className="md:w-1/2">
+//             <h1 className="text-3xl font-bold mb-4">
+//               {product.title || product.name}
+//             </h1>
+//             <p className="text-lg font-semibold text-pink-600 mb-2">
+//               ₦{Number(product.price).toLocaleString()}
+//             </p>
+//             <p className="text-gray-700 mb-6">
+//               {product.description ||
+//                 "Delicious custom-made cake perfect for your occasions."}
+//             </p>
+
+//             {/* ✅ Cake Customizer only for Cakes */}
+//             {(product.category === "Cakes" || product.category === "cakes") && (
+//               <div className="mt-6">
+//                 <CakeCustomizer
+//                   product={product}
+//                   quantity={quantity}
+//                   setQuantity={setQuantity}
+//                 />
+//               </div>
+//             )}
+//           </div>
+//         </div>
+
+//         {/* ✅ Placeholder for reviews + related products */}
+//         <div className="mt-20">
+//           <h2 className="text-2xl font-bold mb-4">Customer Reviews</h2>
+//           <p className="text-gray-600">Reviews section coming soon...</p>
+//         </div>
+
+//         <div className="mt-20">
+//           <h2 className="text-2xl font-bold mb-4">Related Products</h2>
+//           <p className="text-gray-600">Related products section coming soon...</p>
+//         </div>
+//       </section>
+//       <Footer />
+//     </>
+//   );
+// }
+
+
+// 'use client';
+
+// import { useState } from 'react';
+// import Image from 'next/image';
+// import Slider from 'react-slick';
+// import { useParams } from 'next/navigation';
+
+// import Navbar from '@/components/Navbar';
+// import Footer from '@/components/Footer';
+// import CakeCustomizer from '@/components/CakeCustomizer';
+
+// // Import your products dataset
+// import { products } from '@/data/products'; // <-- make sure you have this file
+
+// // Slick carousel styles
+// import "slick-carousel/slick/slick.css";
+// import "slick-carousel/slick/slick-theme.css";
+
+// export default function ProductDetails() {
+//   const { id } = useParams(); // ✅ get product id from URL (/product/[id])
+//   const product = products.find((p) => p.id === id); // ✅ look up product by id
+
+//   const [quantity, setQuantity] = useState(1);
+
+//   if (!product) {
+//     return (
+//       <>
+//         <Navbar />
+//         <section className="px-6 md:px-20 py-20">
+//           <h1 className="text-2xl font-bold">Product not found</h1>
+//         </section>
+//         <Footer />
+//       </>
+//     );
+//   }
+
+//   const sliderSettings = {
+//     dots: true,
+//     infinite: true,
+//     speed: 400,
+//     slidesToShow: 1,
+//     slidesToScroll: 1,
+//     arrows: true,
+//     adaptiveHeight: true,
+//   };
+
+//   return (
+//     <>
+//       <Navbar />
+//       <section className="px-6 md:px-20 py-20 bg-red-100 min-h-screen">
+//         <div className="flex flex-col md:flex-row gap-10">
+//           {/* ✅ Left Column: Image Slider */}
+//           <div className="w-full md:w-1/2">
+//             {product.images && product.images.length > 0 ? (
+//               <Slider {...sliderSettings}>
+//                 {product.images.map((img, index) => (
+//                   <div key={index} className="flex justify-center">
+//                     <Image
+//                       src={img}
+//                       alt={product.title || product.name}
+//                       width={500}
+//                       height={500}
+//                       className="rounded-xl shadow object-cover"
+//                     />
+//                   </div>
+//                 ))}
+//               </Slider>
+//             ) : (
+//               <Image
+//                 src={product.image}
+//                 alt={product.title || product.name}
+//                 width={500}
+//                 height={500}
+//                 className="rounded-xl shadow object-cover"
+//               />
+//             )}
+//           </div>
+
+//           {/* ✅ Right Column: Product Info */}
+//           <div className="md:w-1/2">
+//             <h1 className="text-3xl font-bold mb-4">
+//               {product.title || product.name}
+//             </h1>
+//             <p className="text-lg font-semibold text-pink-600 mb-2">
+//               ₦{Number(product.price).toLocaleString()}
+//             </p>
+//             <p className="text-gray-700 mb-6">
+//               {product.description ||
+//                 "Delicious custom-made cake perfect for your occasions."}
+//             </p>
+
+//             {/* ✅ Cake Customizer only for Cakes */}
+//             {(product.category === "Cakes" || product.category === "cakes") && (
+//               <div className="mt-6">
+//                 <CakeCustomizer
+//                   product={product}
+//                   quantity={quantity}
+//                   setQuantity={setQuantity}
+//                 />
+//               </div>
+//             )}
+//           </div>
+//         </div>
+
+//         {/* ✅ Placeholder for reviews + related products */}
+//         <div className="mt-20">
+//           <h2 className="text-2xl font-bold mb-4">Customer Reviews</h2>
+//           <p className="text-gray-600">Reviews section coming soon...</p>
+//         </div>
+
+//         <div className="mt-20">
+//           <h2 className="text-2xl font-bold mb-4">Related Products</h2>
+//           <p className="text-gray-600">Related products section coming soon...</p>
+//         </div>
+//       </section>
+//       <Footer />
+//     </>
+//   );
+// }
+
+// 'use client';
+
+// import { useState } from 'react';
+// import Image from 'next/image';
+// import Slider from 'react-slick';
+// import { useParams } from 'next/navigation';
+
+// import Navbar from '@/components/Navbar';
+// import Footer from '@/components/Footer';
+// import CakeCustomizer from '@/components/CakeCustomizer';
+
+// // Import your products dataset
+// import { products } from '@/data/products'; // <-- make sure this file exists
+
+// // Slick carousel styles
+// import "slick-carousel/slick/slick.css";
+// import "slick-carousel/slick/slick-theme.css";
+
+// export default function ProductDetails() {
+//   const { id } = useParams(); // ✅ get product id from URL (/product/[id])
+//   const product = products.find((p) => p.id === id); // ✅ look up product by id
+
+//   const [quantity, setQuantity] = useState(1);
+
+//   if (!product) {
+//     return (
+//       <>
+//         <Navbar />
+//         <section className="px-6 md:px-20 py-20">
+//           <h1 className="text-2xl font-bold">Product not found</h1>
+//         </section>
+//         <Footer />
+//       </>
+//     );
+//   }
+
+//   const sliderSettings = {
+//     dots: true,
+//     infinite: true,
+//     speed: 400,
+//     slidesToShow: 1,
+//     slidesToScroll: 1,
+//     arrows: true,
+//     adaptiveHeight: true,
+//   };
+
+//   return (
+//     <>
+//       <Navbar />
+//       <section className="px-6 md:px-20 py-20 bg-red-100 min-h-screen">
+//         <div className="flex flex-col md:flex-row gap-10">
+//           {/* ✅ Left Column: Image Slider */}
+//           <div className="w-full md:w-1/2">
+//             {product.images && product.images.length > 0 ? (
+//               <Slider {...sliderSettings}>
+//                 {product.images.map((img, index) => (
+//                   <div key={index} className="flex justify-center">
+//                     <Image
+//                       src={img}
+//                       alt={product.title || product.name}
+//                       width={500}
+//                       height={500}
+//                       className="w-full rounded-xl shadow object-cover"
+//                     />
+//                   </div>
+//                 ))}
+//               </Slider>
+//             ) : product.image ? (
+//               <Image
+//                 src={product.image}
+//                 alt={product.title || product.name}
+//                 width={500}
+//                 height={500}
+//                 className="w-full rounded-xl shadow object-cover"
+//               />
+//             ) : (
+//               <div className="w-full h-64 flex items-center justify-center bg-gray-200 rounded-xl">
+//                 <span className="text-gray-500">No Image Available</span>
+//               </div>
+//             )}
+//           </div>
+
+//           {/* ✅ Right Column: Product Info */}
+//           <div className="md:w-1/2">
+//             <h1 className="text-3xl font-bold mb-4">
+//               {product.title || product.name}
+//             </h1>
+//             {/* <p className="text-lg font-semibold text-pink-600 mb-2">
+//               ₦{Number(product.price).toLocaleString()}
+//             </p> */}
+//             <p className="text-lg font-semibold text-pink-600 mb-2">
+//              {product.category === "Cakes"
+//                ? `₦${(16000).toLocaleString()} - ₦${(140000).toLocaleString()}`
+//                : product.price
+//                ? `₦${Number(product.price).toLocaleString()}`
+//                : "Price not available"}
+//              </p>
+
+//             <p className="text-gray-700 mb-6">
+//               {product.description ||
+//                 "Delicious custom-made cake perfect for your occasions."}
+//             </p>
+
+//             {/* ✅ Cake Customizer only for Cakes */}
+//             {(product.category === "Cakes" || product.category === "cakes") && (
+//               <div className="mt-6">
+//                 <CakeCustomizer
+//                   product={product}
+//                   quantity={quantity}
+//                   setQuantity={setQuantity}
+//                 />
+//               </div>
+//             )}
+//           </div>
+//         </div>
+
+//         {/* ✅ Placeholder for reviews + related products */}
+//         <div className="mt-20">
+//           <h2 className="text-2xl font-bold mb-4">Customer Reviews</h2>
+//           <p className="text-gray-600">Reviews section coming soon...</p>
+//         </div>
+
+//         <div className="mt-20">
+//           <h2 className="text-2xl font-bold mb-4">Related Products</h2>
+//           <p className="text-gray-600">Related products section coming soon...</p>
+//         </div>
+//       </section>
+//       <Footer />
+//     </>
+//   );
+// }
+
+// 'use client';
+
+// import { useState } from 'react';
+// import Image from 'next/image';
+// import Slider from 'react-slick';
+// import { useParams } from 'next/navigation';
+
+// import Navbar from '@/components/Navbar';
+// import Footer from '@/components/Footer';
+// import CakeCustomizer from '@/components/CakeCustomizer';
+// import { useCart } from '@/context/CartContext'; // ✅ Cart hook
+
+// // Import your products dataset
+// import { products } from '@/data/products';
+
+// // Slick carousel styles
+// import "slick-carousel/slick/slick.css";
+// import "slick-carousel/slick/slick-theme.css";
+
+// export default function ProductDetails() {
+//   const { id } = useParams(); // ✅ get product id from URL (/product/[id])
+//   const { addToCart } = useCart(); // ✅ access addToCart
+//   const product = products.find((p) => p.id === id); // ✅ look up product by id
+
+//   const [quantity, setQuantity] = useState(1);
+
+//   if (!product) {
+//     return (
+//       <>
+//         <Navbar />
+//         <section className="px-6 md:px-20 py-20">
+//           <h1 className="text-2xl font-bold">Product not found</h1>
+//         </section>
+//         <Footer />
+//       </>
+//     );
+//   }
+
+//   const sliderSettings = {
+//     dots: true,
+//     infinite: true,
+//     speed: 400,
+//     slidesToShow: 1,
+//     slidesToScroll: 1,
+//     arrows: true,
+//     adaptiveHeight: true,
+//   };
+
+//   // ✅ Generic Add to Cart handler (non-cakes)
+//   const handleAddToCart = () => {
+//     if (!product.price) {
+//       alert("This product doesn't have a valid price");
+//       return;
+//     }
+//     addToCart(product, {
+//       unitPrice: product.price,
+//       finalUnitPrice: product.price,
+//       quantity,
+//     });
+//   };
+
+//   return (
+//     <>
+//       <Navbar />
+//       <section className="px-6 md:px-20 py-20 bg-red-100 min-h-screen">
+//         <div className="flex flex-col md:flex-row gap-10">
+//           {/* ✅ Left Column: Image Slider */}
+//           <div className="w-full md:w-1/2">
+//             {product.images && product.images.length > 0 ? (
+//               <Slider {...sliderSettings}>
+//                 {product.images.map((img, index) => (
+//                   <div key={index} className="flex justify-center">
+//                     <Image
+//                       src={img}
+//                       alt={product.title || product.name}
+//                       width={500}
+//                       height={500}
+//                       className="w-full rounded-xl shadow object-cover"
+//                     />
+//                   </div>
+//                 ))}
+//               </Slider>
+//             ) : product.image ? (
+//               <Image
+//                 src={product.image}
+//                 alt={product.title || product.name}
+//                 width={500}
+//                 height={500}
+//                 className="w-full rounded-xl shadow object-cover"
+//               />
+//             ) : (
+//               <div className="w-full h-64 flex items-center justify-center bg-gray-200 rounded-xl">
+//                 <span className="text-gray-500">No Image Available</span>
+//               </div>
+//             )}
+//           </div>
+
+//           {/* ✅ Right Column: Product Info */}
+//           <div className="md:w-1/2">
+//             <h1 className="text-3xl font-bold mb-4">
+//               {product.title || product.name}
+//             </h1>
+
+//             <p className="text-lg font-semibold text-pink-600 mb-2">
+//               {product.category === "Cakes" || product.category === "cakes"
+//                 ? `₦${(16000).toLocaleString()} - ₦${(140000).toLocaleString()}`
+//                 : product.price
+//                 ? `₦${Number(product.price).toLocaleString()}`
+//                 : "Price not available"}
+//             </p>
+
+//             <p className="text-gray-700 mb-6">
+//               {product.description ||
+//                 "Delicious custom-made cake perfect for your occasions."}
+//             </p>
+
+//             {/* ✅ If Cake → show CakeCustomizer */}
+//             {(product.category === "Cakes" || product.category === "cakes") ? (
+//               <div className="mt-6">
+//                 <CakeCustomizer
+//                   product={product}
+//                   quantity={quantity}
+//                   setQuantity={setQuantity}
+//                 />
+//               </div>
+//             ) : (
+//               /* ✅ Else show standard Add to Cart */
+//               <div className="mt-6">
+//                 <div className="flex items-center gap-3 mb-4">
+//                   <span className="font-medium">Quantity:</span>
+//                   <div className="flex items-center border rounded">
+//                     <button
+//                       onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+//                       className="px-3 py-1 bg-gray-200 hover:bg-gray-300"
+//                     >
+//                       -
+//                     </button>
+//                     <span className="px-4">{quantity}</span>
+//                     <button
+//                       onClick={() => setQuantity((q) => q + 1)}
+//                       className="px-3 py-1 bg-gray-200 hover:bg-gray-300"
+//                     >
+//                       +
+//                     </button>
+//                   </div>
+//                 </div>
+
+//                 <button
+//                   onClick={handleAddToCart}
+//                   className="px-5 py-2 bg-pink-600 hover:bg-pink-700 text-white rounded"
+//                 >
+//                   Add to Cart
+//                 </button>
+//               </div>
+//             )}
+//           </div>
+//         </div>
+
+//         {/* ✅ Placeholder for reviews + related products */}
+//         <div className="mt-20">
+//           <h2 className="text-2xl font-bold mb-4">Customer Reviews</h2>
+//           <p className="text-gray-600">Reviews section coming soon...</p>
+//         </div>
+
+//         <div className="mt-20">
+//           <h2 className="text-2xl font-bold mb-4">Related Products</h2>
+//           <p className="text-gray-600">Related products section coming soon...</p>
+//         </div>
+//       </section>
+//       <Footer />
+//     </>
+//   );
+// }
+
+// "use client";
+
+// import { useState } from "react";
+// import Image from "next/image";
+// import Slider from "react-slick";
+// import { useParams, useRouter } from "next/navigation";
+
+// import Navbar from "@/components/Navbar";
+// import Footer from "@/components/Footer";
+// import CakeCustomizer from "@/components/CakeCustomizer";
+// import { useCart } from "@/context/CartContext";
+// import { products } from "@/data/products";
+
+// import "slick-carousel/slick/slick.css";
+// import "slick-carousel/slick/slick-theme.css";
+
+// export default function ProductDetails() {
+//   const { id } = useParams();
+//   const router = useRouter();
+//   const { addToCart } = useCart();
+//   const product = products.find((p) => String(p.id) === String(id));
+
+
+//   const [quantity, setQuantity] = useState(1);
+
+//   if (!product) {
+//     return (
+//       <>
+//         <Navbar />
+//         <section className="px-6 md:px-20 py-20">
+//           <h1 className="text-2xl font-bold">Product not found</h1>
+//         </section>
+//         <Footer />
+//       </>
+//     );
+//   }
+
+//   const sliderSettings = {
+//     dots: true,
+//     infinite: true,
+//     speed: 400,
+//     slidesToShow: 1,
+//     slidesToScroll: 1,
+//     arrows: true,
+//     adaptiveHeight: true,
+//   };
+
+//   const handleAddToCart = () => {
+//     if (!product.price) {
+//       alert("This product doesn't have a valid price");
+//       return;
+//     }
+//     addToCart(product, {
+//       unitPrice: product.price,
+//       finalUnitPrice: product.price,
+//       quantity,
+//     });
+//     router.push("/cart"); // ✅ redirect after adding
+//   };
+
+//   return (
+//     <>
+//       <Navbar />
+//       <section className="px-6 md:px-20 py-20 bg-red-100 min-h-screen">
+//         <div className="flex flex-col md:flex-row gap-10">
+//           {/* Left: Images */}
+//           <div className="w-full md:w-1/2">
+//             {product.images && product.images.length > 0 ? (
+//               <Slider {...sliderSettings}>
+//                 {product.images.map((img, index) => (
+//                   <div key={index} className="flex justify-center">
+//                     <Image
+//                       src={img}
+//                       alt={product.title || product.name}
+//                       width={500}
+//                       height={500}
+//                       className="w-full rounded-xl shadow object-cover"
+//                     />
+//                   </div>
+//                 ))}
+//               </Slider>
+//             ) : product.image ? (
+//               <Image
+//                 src={product.image}
+//                 alt={product.title || product.name}
+//                 width={500}
+//                 height={500}
+//                 className="w-full rounded-xl shadow object-cover"
+//               />
+//             ) : (
+//               <div className="w-full h-64 flex items-center justify-center bg-gray-200 rounded-xl">
+//                 <span className="text-gray-500">No Image Available</span>
+//               </div>
+//             )}
+//           </div>
+
+//           {/* Right: Details */}
+//           <div className="md:w-1/2">
+//             <h1 className="text-3xl font-bold mb-4">
+//               {product.title || product.name}
+//             </h1>
+
+//             <p className="text-lg font-semibold text-pink-600 mb-2">
+//               {product.category === "Cakes" || product.category === "cakes"
+//                 ? `₦${(16000).toLocaleString()} - ₦${(140000).toLocaleString()}`
+//                 : product.price
+//                 ? `₦${Number(product.price).toLocaleString()}`
+//                 : "Price not available"}
+//             </p>
+
+
+//             <p className="text-gray-700 mb-6">
+//               {product.description ||
+//                 "Delicious custom-made cake perfect for your occasions."}
+//             </p>
+
+//             {/* Cakes → Customizer, Others → Add to Cart */}
+//             {product.category === "Cakes" || product.category === "cakes" ? (
+//               <CakeCustomizer
+//                 product={product}
+//                 quantity={quantity}
+//                 setQuantity={setQuantity}
+//               />
+//             ) : (
+//               <div className="mt-6">
+//                 <div className="flex items-center gap-3 mb-4">
+//                   <span className="font-medium">Quantity:</span>
+//                   <div className="flex items-center border rounded">
+//                     <button
+//                       onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+//                       className="px-3 py-1 bg-gray-200 hover:bg-gray-300"
+//                     >
+//                       -
+//                     </button>
+//                     <span className="px-4">{quantity}</span>
+//                     <button
+//                       onClick={() => setQuantity((q) => q + 1)}
+//                       className="px-3 py-1 bg-gray-200 hover:bg-gray-300"
+//                     >
+//                       +
+//                     </button>
+//                   </div>
+//                 </div>
+
+//                 <button
+//                   onClick={handleAddToCart}
+//                   className="px-5 py-2 bg-pink-600 hover:bg-pink-700 text-white rounded"
+//                 >
+//                   Add to Cart
+//                 </button>
+//               </div>
+//             )}
+//           </div>
+//         </div>
+//       </section>
+//       <Footer />
+//     </>
+//   );
+// }
+
+// "use client";
+
+// import { useState } from "react";
+// import Image from "next/image";
+// import Slider from "react-slick";
+// import { useParams, useRouter } from "next/navigation";
+
+// import Navbar from "@/components/Navbar";
+// import Footer from "@/components/Footer";
+// import CakeCustomizer from "@/components/CakeCustomizer";
+// import { useCart } from "@/context/CartContext";
+// import { products } from "@/data/products";
+
+// import "slick-carousel/slick/slick.css";
+// import "slick-carousel/slick/slick-theme.css";
+
+// export default function ProductDetails() {
+//   const { id } = useParams();
+//   const router = useRouter();
+//   const { addToCart } = useCart();
+//   const product = products.find((p) => String(p.id) === String(id));
+
+//   const [quantity, setQuantity] = useState(1);
+
+//   if (!product) {
+//     return (
+//       <>
+//         <Navbar />
+//         <section className="px-6 md:px-20 py-20">
+//           <h1 className="text-2xl font-bold">Product not found</h1>
+//         </section>
+//         <Footer />
+//       </>
+//     );
+//   }
+
+//   const sliderSettings = {
+//     dots: true,
+//     infinite: true,
+//     speed: 400,
+//     slidesToShow: 1,
+//     slidesToScroll: 1,
+//     arrows: true,
+//     adaptiveHeight: true,
+//   };
+
+//   const handleAddToCart = () => {
+//     if (!product.price) {
+//       alert("This product doesn't have a valid price");
+//       return;
+//     }
+//     addToCart(product, {
+//       unitPrice: product.price,
+//       finalUnitPrice: product.price,
+//       quantity,
+//     });
+//     router.push("/cart");
+//   };
+
+//   // ✅ Nimah's WhatsApp info
+//   const nimahWhatsApp = "2348179528822"; // Replace with Nimah’s real number
+
+//   // ✅ Create WhatsApp message
+//   const message = `Hi Nimah! 💍 I'm interested in one of your *Wedding Cakes* and would love to get more details. 🍰
+
+// Here are the cake details:
+
+// 🎂 *${product.title || "Wedding Cake"}*
+// 📸 Product ID: ${product.id}
+// 📂 Category: ${product.category}
+
+// Could you please help me with pricing, customization options, and availability? 😊`;
+
+//   const whatsappLink = `https://wa.me/${nimahWhatsApp}?text=${encodeURIComponent(
+//     message
+//   )}`;
+
+//   return (
+//     <>
+//       <Navbar />
+//       <section className="px-6 md:px-20 py-20 bg-red-100 min-h-screen">
+//         <div className="flex flex-col md:flex-row gap-10">
+//           {/* Left: Images */}
+//           <div className="w-full md:w-1/2">
+//             {product.images && product.images.length > 0 ? (
+//               <Slider {...sliderSettings}>
+//                 {product.images.map((img, index) => (
+//                   <div key={index} className="flex justify-center">
+//                     <Image
+//                       src={img}
+//                       alt={product.title || product.name}
+//                       width={500}
+//                       height={500}
+//                       className="w-full rounded-xl shadow object-cover"
+//                     />
+//                   </div>
+//                 ))}
+//               </Slider>
+//             ) : product.image ? (
+//               <Image
+//                 src={product.image}
+//                 alt={product.title || product.name}
+//                 width={500}
+//                 height={500}
+//                 className="w-full rounded-xl shadow object-cover"
+//               />
+//             ) : (
+//               <div className="w-full h-64 flex items-center justify-center bg-gray-200 rounded-xl">
+//                 <span className="text-gray-500">No Image Available</span>
+//               </div>
+//             )}
+//           </div>
+
+//           {/* Right: Details */}
+//           <div className="md:w-1/2">
+//             <h1 className="text-3xl font-bold mb-4">
+//               {product.title || product.name}
+//             </h1>
+
+//             <p className="text-lg font-semibold text-pink-600 mb-2">
+//               {product.category === "Cakes" || product.category === "cakes"
+//                 ? `₦${(16000).toLocaleString()} - ₦${(140000).toLocaleString()}`
+//                 : product.price
+//                 ? `₦${Number(product.price).toLocaleString()}`
+//                 : "Price not available"}
+//             </p>
+
+//             <p className="text-gray-700 mb-6">
+//               {product.category === "Wedding Cakes"
+//                 ? "Make your big day unforgettable with our luxurious handcrafted wedding cakes. Each design tells a story — yours. 💕 To order, send Nimah a message on WhatsApp to discuss your perfect cake."
+//                 : product.description ||
+//                   "Delicious custom-made cake perfect for your occasions."}
+//             </p>
+
+//             {/* ✅ Logic for Wedding Cakes → WhatsApp instead of Add to Cart */}
+//             {product.category === "Wedding Cakes" ? (
+//               <a
+//                 href={whatsappLink}
+//                 target="_blank"
+//                 rel="noopener noreferrer"
+//                 className="px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg font-semibold inline-block transition"
+//               >
+//                 💬 Message Nimah on WhatsApp
+//               </a>
+//             ) : product.category === "Cakes" || product.category === "cakes" ? (
+//               <CakeCustomizer
+//                 product={product}
+//                 quantity={quantity}
+//                 setQuantity={setQuantity}
+//               />
+//             ) : (
+//               <div className="mt-6">
+//                 <div className="flex items-center gap-3 mb-4">
+//                   <span className="font-medium">Quantity:</span>
+//                   <div className="flex items-center border rounded">
+//                     <button
+//                       onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+//                       className="px-3 py-1 bg-gray-200 hover:bg-gray-300"
+//                     >
+//                       -
+//                     </button>
+//                     <span className="px-4">{quantity}</span>
+//                     <button
+//                       onClick={() => setQuantity((q) => q + 1)}
+//                       className="px-3 py-1 bg-gray-200 hover:bg-gray-300"
+//                     >
+//                       +
+//                     </button>
+//                   </div>
+//                 </div>
+
+//                 <button
+//                   onClick={handleAddToCart}
+//                   className="px-5 py-2 bg-pink-600 hover:bg-pink-700 text-white rounded"
+//                 >
+//                   Add to Cart
+//                 </button>
+//               </div>
+//             )}
+//           </div>
+//         </div>
+//       </section>
+//       <Footer />
+//     </>
+//   );
+// }
+
+
 "use client";
 
-import { useParams, useRouter } from "next/navigation";
+import { useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
+import Slider from "react-slick";
+import { useParams, useRouter } from "next/navigation";
+
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CakeCustomizer from "@/components/CakeCustomizer";
-import { products } from "@/data/products";
 import { useCart } from "@/context/CartContext";
-import { useState } from "react";
+import { products } from "@/data/products";
+
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 export default function ProductDetails() {
   const { id } = useParams();
   const router = useRouter();
-  const product = products.find((p) => String(p.id) === String(id));
   const { addToCart } = useCart();
+  const product = products.find((p) => String(p.id) === String(id));
+
   const [quantity, setQuantity] = useState(1);
 
-  if (!product) return <div className="p-10">Loading or Product Not Found...</div>;
+  if (!product) {
+    return (
+      <>
+        <Navbar />
+        <section className="px-6 md:px-20 py-20">
+          <h1 className="text-2xl font-bold">Product not found</h1>
+        </section>
+        <Footer />
+      </>
+    );
+  }
 
-  const relatedProducts = products
-    .filter((p) => p.category === product.category && String(p.id) !== String(product.id))
-    .slice(0, 3);
-
-  const handleAddToCart = () => {
-    addToCart(product, quantity);
-    router.push("/cart"); // ✅ redirect user to cart after adding
+  const sliderSettings = {
+    dots: true,
+    infinite: true,
+    speed: 400,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: true,
+    adaptiveHeight: true,
   };
 
-  const increaseQty = () => setQuantity((prev) => prev + 1);
-  const decreaseQty = () => setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
+  const handleAddToCart = () => {
+    if (!product.price) {
+      alert("This product doesn't have a valid price");
+      return;
+    }
+    addToCart(product, {
+      unitPrice: product.price,
+      finalUnitPrice: product.price,
+      quantity,
+    });
+    router.push("/cart");
+  };
 
-  const totalPrice = product.price ? product.price * quantity : 0;
+  // ✅ Nimah's WhatsApp info
+  const nimahWhatsApp = "2348179528822"; // Replace with Nimah’s real number
+
+  // ✅ Create WhatsApp message
+  const message = `Hi Nimah! 💍 I'm interested in one of your *Wedding Cakes* and would love to get more details. 🍰
+
+Here are the cake details:
+
+🎂 *${product.title || "Wedding Cake"}*
+📸 Product ID: ${product.id}
+📂 Category: ${product.category}
+
+Could you please help me with pricing, customization options, and availability? 😊`;
+
+  const whatsappLink = `https://wa.me/${nimahWhatsApp}?text=${encodeURIComponent(
+    message
+  )}`;
+
+  // ✅ Calculate total (only for priced items)
+  const itemTotal =
+    product.price && quantity ? Number(product.price) * quantity : 0;
 
   return (
     <>
       <Navbar />
       <section className="px-6 md:px-20 py-20 bg-red-100 min-h-screen">
         <div className="flex flex-col md:flex-row gap-10">
-          <Image
-            src={product.image}
-            alt={product.title || product.name}
-            width={500}
-            height={500}
-            className="rounded-xl shadow w-full md:w-1/2 object-cover"
-          />
-
-          <div className="md:w-1/2">
-            <h1 className="text-3xl font-bold text-black">
-              {product.title || product.name}
-            </h1>
-            <p className="mt-4 text-gray-700">{product.description}</p>
-
-    {/* ✅ Normal Products */}
-{product.category !== "Cakes" && product.category !== "cakes" && (
-  <>
-    {product.price && (
-      <p className="mt-4 font-bold text-black text-xl">
-        ₦{Number(product.price).toLocaleString()}
-      </p>
-    )}
-
-    {/* Quantity Selector with +/- */}
-    <div className="flex items-center gap-4 mt-6">
-      <label className="text-black">Qty:</label>
-      <div className="flex items-center gap-3">
-        <button
-          onClick={decreaseQty}
-          className="px-3 py-1 bg-gray-200 text-black rounded"
-        >
-          -
-        </button>
-        <span className="px-4 py-1 border rounded bg-white">
-          {quantity}
-        </span>
-        <button
-          onClick={increaseQty}
-          className="px-3 py-1 bg-gray-200 text-black rounded"
-        >
-          +
-        </button>
-      </div>
-    </div>
-
-    {/* ✅ Total Price */}
-    <p className="mt-4 font-semibold text-black text-lg">
-      Total: ₦{(Number(product.price) * quantity).toLocaleString()}
-    </p>
-
-    {/* Add to Cart Button */}
-    <button
-      onClick={handleAddToCart}
-      className="mt-6 bg-red-500 text-white px-6 py-3 rounded-lg shadow hover:bg-red-600"
-    >
-      Add to Cart
-    </button>
-  </>
-)}
-
-            {/* ✅ Cake Products with Customizer */}
-            {(product.category === "Cakes" || product.category === "cakes") && (
-              <div className="mt-6">
-                <CakeCustomizer
-                  product={product}
-                  quantity={quantity}
-                  setQuantity={setQuantity}
-                />
+          {/* Left: Images */}
+          <div className="w-full md:w-1/2">
+            {product.images && product.images.length > 0 ? (
+              <Slider {...sliderSettings}>
+                {product.images.map((img, index) => (
+                  <div key={index} className="flex justify-center">
+                    <Image
+                      src={img}
+                      alt={product.title || product.name}
+                      width={500}
+                      height={500}
+                      className="w-full rounded-xl shadow object-cover"
+                    />
+                  </div>
+                ))}
+              </Slider>
+            ) : product.image ? (
+              <Image
+                src={product.image}
+                alt={product.title || product.name}
+                width={500}
+                height={500}
+                className="w-full rounded-xl shadow object-cover"
+              />
+            ) : (
+              <div className="w-full h-64 flex items-center justify-center bg-gray-200 rounded-xl">
+                <span className="text-gray-500">No Image Available</span>
               </div>
             )}
           </div>
-        </div>
 
-        {/* Reviews */}
-        <div className="mt-20">
-          <h2 className="text-2xl font-bold mb-6 text-black">Customer Reviews</h2>
-          <div className="grid md:grid-cols-3 gap-6">
-            {[
-              { name: "Aisha", text: "Delicious cake, beautifully presented!" },
-              { name: "Tolu", text: "Absolutely loved it, will order again!" },
-              { name: "Emeka", text: "Perfect for our birthday event!" },
-            ].map((review, index) => (
-              <div key={index} className="bg-white p-6 rounded shadow text-gray-700">
-                <p className="italic">"{review.text}"</p>
-                <p className="mt-2 font-semibold text-sm">- {review.name}</p>
-              </div>
-            ))}
-          </div>
-        </div>
+          {/* Right: Details */}
+          <div className="md:w-1/2">
+            <h1 className="text-3xl font-bold mb-4">
+              {product.title || product.name}
+            </h1>
 
-        {/* Related Products */}
-        <div className="mt-20">
-          <h2 className="text-2xl font-bold mb-6 text-black">Related Products</h2>
-          <div className="grid md:grid-cols-3 gap-6">
-            {relatedProducts.map((item) => (
-              <Link key={item.id} href={`/product/${item.id}`}>
-                <div className="bg-white rounded shadow hover:shadow-lg transition">
-                  <Image
-                    src={item.image}
-                    alt={item.title || item.name}
-                    width={400}
-                    height={300}
-                    className="rounded-t w-full h-64 object-cover"
-                  />
-                  <div className="p-4">
-                    <h3 className="font-bold text-lg">{item.title || item.name}</h3>
-                    {item.price && (
-                      <p className="text-black font-semibold">₦{item.price}</p>
-                    )}
+            <p className="text-lg font-semibold text-pink-600 mb-2">
+              {product.category === "Cakes" || product.category === "cakes"
+                ? `₦${(16000).toLocaleString()} - ₦${(140000).toLocaleString()}`
+                : product.price
+                ? `₦${Number(product.price).toLocaleString()}`
+                : "Price not available"}
+            </p>
+
+            <p className="text-gray-700 mb-6">
+              {product.category === "Wedding Cakes"
+                ? "Make your big day unforgettable with our luxurious handcrafted wedding cakes. Each design tells a story — yours. 💕 To order, send Nimah a message on WhatsApp to discuss your perfect cake."
+                : product.description ||
+                  "Delicious custom-made cake perfect for your occasions."}
+            </p>
+
+            {/* ✅ Logic for Wedding Cakes → WhatsApp instead of Add to Cart */}
+            {product.category === "Wedding Cakes" ? (
+              <a
+                href={whatsappLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg font-semibold inline-block transition"
+              >
+                💬 Message Nimah on WhatsApp
+              </a>
+            ) : product.category === "Cakes" || product.category === "cakes" ? (
+              <CakeCustomizer
+                product={product}
+                quantity={quantity}
+                setQuantity={setQuantity}
+              />
+            ) : (
+              <div className="mt-6">
+                {/* Quantity control */}
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="font-medium">Quantity:</span>
+                  <div className="flex items-center border rounded">
+                    <button
+                      onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                      className="px-3 py-1 bg-gray-200 hover:bg-gray-300"
+                    >
+                      -
+                    </button>
+                    <span className="px-4">{quantity}</span>
+                    <button
+                      onClick={() => setQuantity((q) => q + 1)}
+                      className="px-3 py-1 bg-gray-200 hover:bg-gray-300"
+                    >
+                      +
+                    </button>
                   </div>
                 </div>
-              </Link>
-            ))}
+
+                {/* ✅ Display dynamic total */}
+                {product.price && (
+                  <p className="text-md mb-4 text-gray-800">
+                    <span className="font-medium">Item Total:</span>{" "}
+                    <span className="text-pink-600 font-semibold">
+                      ₦{itemTotal.toLocaleString()}
+                    </span>
+                  </p>
+                )}
+
+                <button
+                  onClick={handleAddToCart}
+                  className="px-5 py-2 bg-pink-600 hover:bg-pink-700 text-white rounded"
+                >
+                  Add to Cart
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </section>

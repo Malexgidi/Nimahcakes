@@ -393,16 +393,355 @@
 //   );
 // }
 
-'use client';
+// 'use client';
 
-import { useCart } from '@/context/CartContext'; // ✅ use the custom hook
-import Image from 'next/image';
-import Link from 'next/link';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
+// import { useCart } from '@/context/CartContext'; // ✅ use the custom hook
+// import Image from 'next/image';
+// import Link from 'next/link';
+// import Navbar from '@/components/Navbar';
+// import Footer from '@/components/Footer';
+
+// export default function CartPage() {
+//   const { cartItems, removeFromCart, updateQuantity, grandTotal } = useCart(); // ✅ from context
+
+//   return (
+//     <>
+//       <Navbar />
+//       <section className="px-6 md:px-20 py-16 min-h-screen bg-red-50">
+//         <h1 className="text-2xl font-bold mb-6 text-black">Your Cart</h1>
+
+//         {cartItems.length === 0 ? (
+//           <p className="text-gray-600">Your cart is empty.</p>
+//         ) : (
+//           <div className="space-y-6">
+//             {cartItems.map((item, index) => (
+//               <div
+//                 key={index}
+//                 className="flex flex-col md:flex-row gap-4 bg-white p-4 rounded shadow"
+//               >
+//                 {/* ✅ Product Image */}
+//                 <Image
+//                   src={item.image}
+//                   alt={item.name}
+//                   width={150}
+//                   height={150}
+//                   className="rounded object-cover"
+//                 />
+
+//                 {/* ✅ Product Details */}
+//                 <div className="flex-1 text-black">
+//                   <h2 className="text-xl font-semibold">{item.name}</h2>
+//                   <p className="text-gray-600">{item.description}</p>
+
+//                   {/* ✅ Pricing breakdown */}
+//                   <div className="mt-3 text-sm text-gray-700 space-y-1">
+//                     <p>
+//                       <span className="font-medium">Unit Price:</span> ₦
+//                       {Number(item.price).toLocaleString()}
+//                     </p>
+//                     <p>
+//                       <span className="font-medium">Quantity:</span> {item.quantity}
+//                     </p>
+//                     <p className="font-bold">
+//                       <span className="font-medium">Item Total:</span> ₦
+//                       {(Number(item.price) * item.quantity).toLocaleString()}
+//                     </p>
+//                   </div>
+
+//                   {/* ✅ Quantity controls */}
+//                   <div className="flex items-center gap-3 mt-4">
+//                     <button
+//                       onClick={() =>
+//                         updateQuantity(item.id, Math.max(1, item.quantity - 1))
+//                       }
+//                       className="px-3 py-1 bg-gray-200 rounded"
+//                     >
+//                       -
+//                     </button>
+//                     <span>{item.quantity}</span>
+//                     <button
+//                       onClick={() => updateQuantity(item.id, item.quantity + 1)}
+//                       className="px-3 py-1 bg-gray-200 rounded"
+//                     >
+//                       +
+//                     </button>
+//                   </div>
+
+//                   {/* ✅ Remove button */}
+//                   <button
+//                     onClick={() => removeFromCart(item.id)}
+//                     className="text-red-500 text-sm mt-3"
+//                   >
+//                     Remove
+//                   </button>
+//                 </div>
+//               </div>
+//             ))}
+
+//             {/* ✅ Cart summary */}
+//             <div className="text-right mt-6">
+//               <h2 className="text-xl font-bold text-black">
+//                 Cart Total: ₦{grandTotal.toLocaleString()}
+//               </h2>
+//               <Link
+//                 href="/checkout"
+//                 className="inline-block mt-4 bg-red-600 text-white px-6 py-2 rounded hover:bg-red-700"
+//               >
+//                 Proceed to Checkout
+//               </Link>
+//             </div>
+//           </div>
+//         )}
+//       </section>
+//       <Footer />
+//     </>
+//   );
+// }
+
+
+// 'use client';
+
+// import { useCart } from '@/context/CartContext';
+// import Image from 'next/image';
+// import Link from 'next/link';
+// import Navbar from '@/components/Navbar';
+// import Footer from '@/components/Footer';
+
+// export default function CartPage() {
+//   const { cartItems, removeFromCart, updateQuantity, grandTotal } = useCart();
+
+//   return (
+//     <>
+//       <Navbar />
+//       <section className="px-6 md:px-20 py-16 min-h-screen bg-red-50">
+//         <h1 className="text-2xl font-bold mb-6 text-black">Your Cart</h1>
+
+//         {cartItems.length === 0 ? (
+//           <p className="text-gray-600">Your cart is empty.</p>
+//         ) : (
+//           <div className="space-y-6">
+//             {cartItems.map((item, index) => (
+//               <div
+//                 key={index}
+//                 className="flex flex-col md:flex-row gap-4 bg-white p-4 rounded shadow"
+//               >
+//                 {/* ✅ Product Image */}
+//                 {item.image && (
+//                   <Image
+//                     src={item.image}
+//                     alt={item.name}
+//                     width={150}
+//                     height={150}
+//                     className="rounded object-cover"
+//                   />
+//                 )}
+
+//                 {/* ✅ Product Details */}
+//                 <div className="flex-1 text-black">
+//                   <h2 className="text-xl font-semibold">{item.name}</h2>
+//                   {item.description && (
+//                     <p className="text-gray-600">{item.description}</p>
+//                   )}
+
+//                   {/* ✅ Pricing breakdown */}
+//                   <div className="mt-3 text-sm text-gray-700 space-y-1">
+//                     <p>
+//                       <span className="font-medium">Unit Price:</span> ₦
+//                       {item.unitPrice.toLocaleString()}
+//                     </p>
+//                     <p>
+//                       <span className="font-medium">Quantity:</span>{' '}
+//                       {item.quantity}
+//                     </p>
+//                     <p className="font-bold">
+//                       <span className="font-medium">Item Total:</span> ₦
+//                       {(item.unitPrice * item.quantity).toLocaleString()}
+//                     </p>
+//                   </div>
+
+//                   {/* ✅ Quantity controls */}
+//                   <div className="flex items-center gap-3 mt-4">
+//                     <button
+//                       onClick={() =>
+//                         updateQuantity(item.id, Math.max(1, item.quantity - 1))
+//                       }
+//                       className="px-3 py-1 bg-gray-200 rounded"
+//                     >
+//                       -
+//                     </button>
+//                     <span>{item.quantity}</span>
+//                     <button
+//                       onClick={() => updateQuantity(item.id, item.quantity + 1)}
+//                       className="px-3 py-1 bg-gray-200 rounded"
+//                     >
+//                       +
+//                     </button>
+//                   </div>
+
+//                   {/* ✅ Remove button */}
+//                   <button
+//                     onClick={() => removeFromCart(item.id)}
+//                     className="text-red-500 text-sm mt-3"
+//                   >
+//                     Remove
+//                   </button>
+//                 </div>
+//               </div>
+//             ))}
+
+//             {/* ✅ Cart summary */}
+//             <div className="text-right mt-6">
+//               <h2 className="text-xl font-bold text-black">
+//                 Cart Total: ₦{grandTotal.toLocaleString()}
+//               </h2>
+//               <Link
+//                 href="/checkout"
+//                 className="inline-block mt-4 bg-red-600 text-white px-6 py-2 rounded hover:bg-red-700"
+//               >
+//                 Proceed to Checkout
+//               </Link>
+//             </div>
+//           </div>
+//         )}
+//       </section>
+//       <Footer />
+//     </>
+//   );
+// }
+
+// 'use client';
+
+// import { useCart } from '@/context/CartContext';
+// import Image from 'next/image';
+// import Link from 'next/link';
+// import Navbar from '@/components/Navbar';
+// import Footer from '@/components/Footer';
+
+// export default function CartPage() {
+//   const { cartItems, removeFromCart, updateQuantity, grandTotal } = useCart();
+
+//   return (
+//     <>
+//       <Navbar />
+//       <section className="px-6 md:px-20 py-16 min-h-screen bg-red-50">
+//         <h1 className="text-2xl font-bold mb-6 text-black">Your Cart</h1>
+
+//         {cartItems.length === 0 ? (
+//           <p className="text-gray-600">Your cart is empty.</p>
+//         ) : (
+//           <div className="space-y-6">
+//             {cartItems.map((item, index) => {
+//               // ✅ normalize prices (for cakes and normal products)
+//               const unitPrice =
+//                 item.unitPrice ??
+//                 item.price ??
+//                 0; // fallback for cakes or normal items
+//               const itemTotal =
+//                 item.grandTotal ??
+//                 unitPrice * item.quantity;
+
+//               return (
+//                 <div
+//                   key={index}
+//                   className="flex flex-col md:flex-row gap-4 bg-white p-4 rounded shadow"
+//                 >
+//                   {/* ✅ Product Image */}
+//                   {item.image && (
+//                     <Image
+//                       src={item.image}
+//                       alt={item.name}
+//                       width={150}
+//                       height={150}
+//                       className="rounded object-cover"
+//                     />
+//                   )}
+
+//                   {/* ✅ Product Details */}
+//                   <div className="flex-1 text-black">
+//                     <h2 className="text-xl font-semibold">{item.name}</h2>
+//                     {item.description && (
+//                       <p className="text-gray-600">{item.description}</p>
+//                     )}
+
+//                     {/* ✅ Pricing breakdown */}
+//                     <div className="mt-3 text-sm text-gray-700 space-y-1">
+//                       <p>
+//                         <span className="font-medium">Unit Price:</span> ₦
+//                         {unitPrice.toLocaleString()}
+//                       </p>
+//                       <p>
+//                         <span className="font-medium">Quantity:</span>{' '}
+//                         {item.quantity}
+//                       </p>
+//                       <p className="font-bold">
+//                         <span className="font-medium">Item Total:</span> ₦
+//                         {itemTotal.toLocaleString()}
+//                       </p>
+//                     </div>
+
+//                     {/* ✅ Quantity controls */}
+//                     <div className="flex items-center gap-3 mt-4">
+//                       <button
+//                         onClick={() =>
+//                           updateQuantity(item.id, Math.max(1, item.quantity - 1))
+//                         }
+//                         className="px-3 py-1 bg-gray-200 rounded"
+//                       >
+//                         -
+//                       </button>
+//                       <span>{item.quantity}</span>
+//                       <button
+//                         onClick={() =>
+//                           updateQuantity(item.id, item.quantity + 1)
+//                         }
+//                         className="px-3 py-1 bg-gray-200 rounded"
+//                       >
+//                         +
+//                       </button>
+//                     </div>
+
+//                     {/* ✅ Remove button */}
+//                     <button
+//                       onClick={() => removeFromCart(item.id)}
+//                       className="text-red-500 text-sm mt-3"
+//                     >
+//                       Remove
+//                     </button>
+//                   </div>
+//                 </div>
+//               );
+//             })}
+
+//             {/* ✅ Cart summary */}
+//             <div className="text-right mt-6">
+//               <h2 className="text-xl font-bold text-black">
+//                 Cart Total: ₦{grandTotal.toLocaleString()}
+//               </h2>
+//               <Link
+//                 href="/checkout"
+//                 className="inline-block mt-4 bg-red-600 text-white px-6 py-2 rounded hover:bg-red-700"
+//               >
+//                 Proceed to Checkout
+//               </Link>
+//             </div>
+//           </div>
+//         )}
+//       </section>
+//       <Footer />
+//     </>
+//   );
+// }
+
+"use client";
+
+import { useCart } from "@/context/CartContext";
+import Image from "next/image";
+import Link from "next/link";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 export default function CartPage() {
-  const { cartItems, removeFromCart, updateQuantity, grandTotal } = useCart(); // ✅ from context
+  const { cartItems, removeFromCart, updateQuantity, grandTotal } = useCart();
 
   return (
     <>
@@ -414,82 +753,87 @@ export default function CartPage() {
           <p className="text-gray-600">Your cart is empty.</p>
         ) : (
           <div className="space-y-6">
-            {cartItems.map((item, index) => (
-              <div
-                key={index}
-                className="flex flex-col md:flex-row gap-4 bg-white p-4 rounded shadow"
-              >
-                {/* ✅ Product Image */}
-                <Image
-                  src={item.image}
-                  alt={item.name}
-                  width={150}
-                  height={150}
-                  className="rounded object-cover"
-                />
+            {cartItems.map((item) => {
+              const unitPrice = item.unitPrice ?? item.price ?? 0;
+              const itemTotal = unitPrice * item.quantity;
 
-                {/* ✅ Product Details */}
-                <div className="flex-1 text-black">
-                  <h2 className="text-xl font-semibold">{item.name}</h2>
-                  <p className="text-gray-600">{item.description}</p>
+              return (
+                <div
+                  key={item.id}
+                  className="flex flex-col md:flex-row gap-4 bg-white p-4 rounded shadow"
+                >
+                  {item.product.image && (
+                    <Image
+                      src={item.product.image}
+                      alt={item.name}
+                      width={150}
+                      height={150}
+                      className="rounded object-cover"
+                    />
+                  )}
 
-                  {/* ✅ Pricing breakdown */}
-                  <div className="mt-3 text-sm text-gray-700 space-y-1">
-                    <p>
-                      <span className="font-medium">Unit Price:</span> ₦
-                      {Number(item.price).toLocaleString()}
-                    </p>
-                    <p>
-                      <span className="font-medium">Quantity:</span> {item.quantity}
-                    </p>
-                    <p className="font-bold">
-                      <span className="font-medium">Item Total:</span> ₦
-                      {(Number(item.price) * item.quantity).toLocaleString()}
-                    </p>
-                  </div>
+                  <div className="flex-1">
+                    <h2 className="font-semibold text-lg">{item.name}</h2>
 
-                  {/* ✅ Quantity controls */}
-                  <div className="flex items-center gap-3 mt-4">
+                    <p className="text-sm text-gray-600">
+                      Unit Price: ₦{unitPrice.toLocaleString()}
+                    </p>
+                    <p className="text-sm text-gray-600">
+                      Item Total: ₦{itemTotal.toLocaleString()}
+                    </p>
+
+                    {/* ✅ Quantity Controls */}
+                    <div className="mt-2 flex items-center gap-3">
+                      <button
+                        onClick={() =>
+                          updateQuantity(item.id, Math.max(1, item.quantity - 1))
+                        }
+                        className="px-3 py-1 bg-gray-200 rounded"
+                      >
+                        -
+                      </button>
+                      <span>{item.quantity}</span>
+                      <button
+                        onClick={() =>
+                          updateQuantity(item.id, item.quantity + 1)
+                        }
+                        className="px-3 py-1 bg-gray-200 rounded"
+                      >
+                        +
+                      </button>
+                    </div>
+
                     <button
-                      onClick={() =>
-                        updateQuantity(item.id, Math.max(1, item.quantity - 1))
-                      }
-                      className="px-3 py-1 bg-gray-200 rounded"
+                      onClick={() => removeFromCart(item.id)}
+                      className="mt-3 text-red-500 text-sm"
                     >
-                      -
-                    </button>
-                    <span>{item.quantity}</span>
-                    <button
-                      onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                      className="px-3 py-1 bg-gray-200 rounded"
-                    >
-                      +
+                      Remove
                     </button>
                   </div>
-
-                  {/* ✅ Remove button */}
-                  <button
-                    onClick={() => removeFromCart(item.id)}
-                    className="text-red-500 text-sm mt-3"
-                  >
-                    Remove
-                  </button>
                 </div>
-              </div>
-            ))}
+              );
+            })}
 
-            {/* ✅ Cart summary */}
-            <div className="text-right mt-6">
-              <h2 className="text-xl font-bold text-black">
+            {/* ✅ Cart Summary */}
+            <div className="p-4 bg-white rounded shadow text-right">
+              <h3 className="font-bold text-xl">
                 Cart Total: ₦{grandTotal.toLocaleString()}
-              </h2>
+              </h3>
               <Link
                 href="/checkout"
-                className="inline-block mt-4 bg-red-600 text-white px-6 py-2 rounded hover:bg-red-700"
+                className="mt-4 inline-block px-6 py-2 bg-pink-600 text-white rounded hover:bg-pink-700"
               >
                 Proceed to Checkout
               </Link>
             </div>
+            <div className="mt-4 text-center">
+          <Link
+            href="/"
+            className="text-red-600 hover:underline text-sm font-medium"
+          >
+            ← Continue Shopping
+          </Link>
+        </div>
           </div>
         )}
       </section>

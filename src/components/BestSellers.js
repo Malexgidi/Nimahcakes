@@ -2,101 +2,101 @@
 import Link from 'next/link';
 
 
-const categories = [
-  {
-    title: "Cakes",
-    items: [
-      {
-        id: "cake1",
-      title: "Custom Cake",
-      description: "Personalized cakes for all occasions.",
-      price: "₦30,000",
-      image: "/Cake1.jpg",
-      },
-      {
-        id: "cake2",
-        title: "Custom Cakes",
-        description: "Personalized cakes for all occasions.",
-        price: "₦28,000",
-        image: "/Cake2.jpg",
-      },
-      {
-        id: "cake3",
-        title: "Custom Cakes",
-        description: "Personalized cakes for all occasions.",
-        price: "₦50,000",
-        image: "/Cake3.jpg",
-      },
-      {
-        id: "cake4",
-        title: "Custom Cakes",
-        description: "Personalized cakes for all occasions.",
-        price: "₦45,000",
-        image: "/Cake4.jpg",
-      },
-      {
-        id: "cake5",
-        title: "Custom Cakes",
-        description: "Personalized cakes for all occasions.",
-        price: "₦80,000",
-        image: "/Cake5.jpg",
-      },
-      {
-        id: "cake6",
-        title: "Custom Cakes",
-        description: "Personalized cakes for all occasions.",
-        price: "₦75,000",
-        image: "/Cake6.jpg",
-      },
-    ],
-  },
-  {
-    title: "Small Chops",
-    items: [
-      {
-        id: "chop1",
-        title: "Small Chops Packs",
-        description: "Perfect for parties and gatherings.",
-        price: "₦12,000",
-        image: "/Chops2.jpg",
-      },
-      {
-        id: "chop2",
-        title: "Small Chops Packs",
-        description: "Perfect for parties and gatherings.",
-        price: "₦15,000",
-        image: "/Turkeychips.jpg",
-      },
-      {
-        id: "chop3",
-        title: "Small Chops Packs",
-        description: "Perfect for parties and gatherings.",
-        price: "₦17,000",
-        image: "/Chops3.jpg",
-      },
-      {
-        id: "chop4",
-        title: "Small Chops Packs",
-        description: "Perfect for parties and gatherings.",
-        price: "₦20,000",
-        image: "/Chops4.jpg",
-      },
-      {
-        id: "chop5",
-        title: "Small Chops Packs",
-        description: "Perfect for parties and gatherings.",
-        price: "₦10,000",
-        image: "/Chops5.jpg",
-      },
-      {
-        id: "chop6",
-        title: "Small Chops Packs",
-        description: "Perfect for parties and gatherings.",
-        price: "₦15,000",
-        image: "/Turkey.jpg",
-      },
-    ],
-  },
+// const categories = [
+//   {
+//     title: "Cakes",
+//     items: [
+//       {
+//         id: "cake1",
+//       title: "Custom Cake",
+//       description: "Personalized cakes for all occasions.",
+//       price: "₦30,000",
+//       image: "/Cake1.jpg",
+//       },
+//       {
+//         id: "cake2",
+//         title: "Custom Cakes",
+//         description: "Personalized cakes for all occasions.",
+//         price: "₦28,000",
+//         image: "/Cake2.jpg",
+//       },
+//       {
+//         id: "cake3",
+//         title: "Custom Cakes",
+//         description: "Personalized cakes for all occasions.",
+//         price: "₦50,000",
+//         image: "/Cake3.jpg",
+//       },
+//       {
+//         id: "cake4",
+//         title: "Custom Cakes",
+//         description: "Personalized cakes for all occasions.",
+//         price: "₦45,000",
+//         image: "/Cake4.jpg",
+//       },
+//       {
+//         id: "cake5",
+//         title: "Custom Cakes",
+//         description: "Personalized cakes for all occasions.",
+//         price: "₦80,000",
+//         image: "/Cake5.jpg",
+//       },
+//       {
+//         id: "cake6",
+//         title: "Custom Cakes",
+//         description: "Personalized cakes for all occasions.",
+//         price: "₦75,000",
+//         image: "/Cake6.jpg",
+//       },
+//     ],
+//   },
+//   {
+//     title: "Small Chops",
+//     items: [
+//       {
+//         id: "chop1",
+//         title: "Small Chops Packs",
+//         description: "Perfect for parties and gatherings.",
+//         price: "₦12,000",
+//         image: "/Chops2.jpg",
+//       },
+//       {
+//         id: "chop2",
+//         title: "Small Chops Packs",
+//         description: "Perfect for parties and gatherings.",
+//         price: "₦15,000",
+//         image: "/Turkeychips.jpg",
+//       },
+//       {
+//         id: "chop3",
+//         title: "Small Chops Packs",
+//         description: "Perfect for parties and gatherings.",
+//         price: "₦17,000",
+//         image: "/Chops3.jpg",
+//       },
+//       {
+//         id: "chop4",
+//         title: "Small Chops Packs",
+//         description: "Perfect for parties and gatherings.",
+//         price: "₦20,000",
+//         image: "/Chops4.jpg",
+//       },
+//       {
+//         id: "chop5",
+//         title: "Small Chops Packs",
+//         description: "Perfect for parties and gatherings.",
+//         price: "₦10,000",
+//         image: "/Chops5.jpg",
+//       },
+//       {
+//         id: "chop6",
+//         title: "Small Chops Packs",
+//         description: "Perfect for parties and gatherings.",
+//         price: "₦15,000",
+//         image: "/Turkey.jpg",
+//       },
+//     ],
+//   },
   // {
   //   title: "Grills",
   //   items: [
@@ -108,7 +108,7 @@ const categories = [
   //     },
   //   ],
   // },
-];
+// ];
 
 export default function BestSellers() {
   return (

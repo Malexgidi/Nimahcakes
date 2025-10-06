@@ -585,16 +585,800 @@
 //   );
 // }
 
+// "use client";
+// import { useState } from "react";
+// import { useCart } from "@/context/CartContext";
+// import Link from "next/link";
+// import Image from "next/image";
+// import { useRouter } from "next/navigation"; // 👈 Add this
+
+// export default function CheckoutPage() {
+//   const { cartItems, grandTotal, clearCart } = useCart();
+//   const router = useRouter(); // 👈 initialize router
+
+//   const [orderType, setOrderType] = useState("delivery");
+//   const [deliveryAddress, setDeliveryAddress] = useState("");
+//   const [pickupDate, setPickupDate] = useState("");
+//   const [pickupTime, setPickupTime] = useState("");
+//   const [deliveryDate, setDeliveryDate] = useState("");
+//   const [deliveryTime, setDeliveryTime] = useState("");
+
+//   const nimahsShopAddress = "123 Nimah Street, Lagos, Nigeria";
+
+//   // ✅ Updated async function with email sending
+//   const handlePlaceOrder = async () => {
+//     const orderDetails = {
+//       type: orderType,
+//       address: orderType === "delivery" ? deliveryAddress : nimahsShopAddress,
+//       date: orderType === "delivery" ? deliveryDate : pickupDate,
+//       time: orderType === "delivery" ? deliveryTime : pickupTime,
+//       items: cartItems,
+//       total: grandTotal,
+//       paymentMethod: "Bank Transfer",
+//     };
+
+//     try {
+//       const res = await fetch("/api/sendOrderEmail", {
+//         method: "POST",
+//         headers: { "Content-Type": "application/json" },
+//         body: JSON.stringify({
+//           customerName: "", // 👉 later you can collect from form input
+//           customerEmail: "alagbadamalik@email.com", // 👉 replace with real input later
+//           orderDetails,
+//         }),
+//       });
+
+//       if (res.ok) {
+//         console.log("✅ Order Email Sent:", orderDetails);
+
+//         clearCart(); // clear cart after successful send
+//         router.push("/thank-you"); // redirect after placing order
+//       } else {
+//         alert("⚠️ Failed to send order. Try again.");
+//       }
+//     } catch (err) {
+//       console.error("❌ Error sending order:", err);
+//       alert("Something went wrong. Please try again.");
+//     }
+//   };
+
+//   return (
+//     <div className="flex flex-col min-h-screen">
+//       {/* Navbar */}
+//       <nav className="w-full bg-white shadow-sm p-4 flex">
+//         <Image
+//           src="/Nimahhub.jpg"
+//           alt="Nimah Logo"
+//           width={60}
+//           height={50}
+//           className="object-contain"
+//         />
+//       </nav>
+
+//       {/* Main Content */}
+//       <main className="flex-grow max-w-4xl mx-auto p-6 py-10">
+//         <h1 className="text-2xl font-bold mb-4">Checkout</h1>
+
+//         {/* Order Type Selection */}
+//         <div className="mb-4">
+//           <label className="mr-4">
+//             <input
+//               type="radio"
+//               value="delivery"
+//               checked={orderType === "delivery"}
+//               onChange={() => setOrderType("delivery")}
+//             />{" "}
+//             Delivery
+//           </label>
+//           <label>
+//             <input
+//               type="radio"
+//               value="pickup"
+//               checked={orderType === "pickup"}
+//               onChange={() => setOrderType("pickup")}
+//             />{" "}
+//             Pickup
+//           </label>
+//         </div>
+
+//         {/* Conditional Forms */}
+//         {orderType === "delivery" && (
+//           <div className="mb-4">
+//             <h2 className="text-lg font-semibold">Delivery Details</h2>
+//             <textarea
+//               placeholder="Enter your delivery address"
+//               value={deliveryAddress}
+//               onChange={(e) => setDeliveryAddress(e.target.value)}
+//               className="w-full border p-2 rounded my-2"
+//             />
+//             <div className="flex gap-4">
+//               <input
+//                 type="date"
+//                 value={deliveryDate}
+//                 onChange={(e) => setDeliveryDate(e.target.value)}
+//                 className="border p-2 rounded"
+//               />
+//               <input
+//                 type="time"
+//                 value={deliveryTime}
+//                 onChange={(e) => setDeliveryTime(e.target.value)}
+//                 className="border p-2 rounded"
+//               />
+//             </div>
+//           </div>
+//         )}
+
+//         {orderType === "pickup" && (
+//           <div className="mb-4">
+//             <h2 className="text-lg font-semibold">Pickup Details</h2>
+//             <p className="mb-2">
+//               Pickup Address: <strong>{nimahsShopAddress}</strong>
+//             </p>
+//             <div className="flex gap-4">
+//               <input
+//                 type="date"
+//                 value={pickupDate}
+//                 onChange={(e) => setPickupDate(e.target.value)}
+//                 className="border p-2 rounded"
+//               />
+//               <input
+//                 type="time"
+//                 value={pickupTime}
+//                 onChange={(e) => setPickupTime(e.target.value)}
+//                 className="border p-2 rounded"
+//               />
+//             </div>
+//           </div>
+//         )}
+
+//         {/* Payment Section */}
+//         <div className="border p-4 rounded mb-4 bg-gray-50">
+//           <h2 className="text-lg font-semibold mb-2">Pay with Bank Transfer</h2>
+//           <p className="mb-1">
+//             <strong>Bank Name:</strong> GTBank
+//           </p>
+//           <p className="mb-1">
+//             <strong>Account Name:</strong> Nimah Cakes & Cuisine
+//           </p>
+//           <p className="mb-3">
+//             <strong>Account Number:</strong> 0123456789
+//           </p>
+//           <p className="text-red-600 font-medium">
+//             ⚠️ Please make sure you have made payments before clicking on Place
+//             Order.
+//           </p>
+//         </div>
+
+//         {/* Order Summary */}
+//         <div className="border p-4 rounded mb-4">
+//           <h2 className="text-lg font-semibold mb-2">Your Order</h2>
+//           {cartItems.length === 0 ? (
+//             <p>Your cart is empty.</p>
+//           ) : (
+//             <div>
+//               {cartItems.map((item) => (
+//                 <div key={item.id} className="flex justify-between mb-2">
+//                   <span>
+//                     {item.name} (x{item.quantity})
+//                   </span>
+//                   <span>₦{item.unitTotal.toLocaleString()}</span>
+//                 </div>
+//               ))}
+//               <hr className="my-2" />
+//               <div className="flex justify-between font-bold">
+//                 <span>Total</span>
+//                 <span>₦{grandTotal.toLocaleString()}</span>
+//               </div>
+//             </div>
+//           )}
+//         </div>
+
+//         {/* Actions */}
+//         <div className="py-4 mt-7">
+//           <button
+//             onClick={handlePlaceOrder}
+//             disabled={cartItems.length === 0}
+//             className="bg-red-600 text-white px-6 py-2 rounded-lg disabled:opacity-50 w-full"
+//           >
+//             Place Order
+//           </button>
+//         </div>
+//         <div>
+//           <Link
+//             href="/cart"
+//             className="text-red-600 items-center justify-center flex underline"
+//           >
+//             ← Back to Cart
+//           </Link>
+//         </div>
+//       </main>
+
+//       {/* Footer */}
+//       <footer className="text-center text-gray-500 text-sm mt-12 mb-4">
+//         &copy; {new Date().getFullYear()} Nimah&apos;s Cakes & Cuisine. All
+//         rights reserved.
+//       </footer>
+//     </div>
+//   );
+// }
+
+
+// "use client";
+// import { useState } from "react";
+// import { useCart } from "@/context/CartContext";
+// import Link from "next/link";
+// import Image from "next/image";
+// import { useRouter } from "next/navigation";
+
+// export default function CheckoutPage() {
+//   const { cartItems, grandTotal, clearCart } = useCart();
+//   const router = useRouter();
+
+//   const [orderType, setOrderType] = useState("delivery");
+//   const [deliveryAddress, setDeliveryAddress] = useState("");
+//   const [pickupDate, setPickupDate] = useState("");
+//   const [pickupTime, setPickupTime] = useState("");
+//   const [deliveryDate, setDeliveryDate] = useState("");
+//   const [deliveryTime, setDeliveryTime] = useState("");
+
+//   // 👉 New customer info states
+//   const [customerName, setCustomerName] = useState("");
+//   const [customerPhone, setCustomerPhone] = useState("");
+//   const [customerEmail, setCustomerEmail] = useState("");
+
+//   const nimahsShopAddress = "123 Nimah Street, Lagos, Nigeria";
+
+
+//   const handlePlaceOrder = async () => {
+//     const orderDetails = {
+//       customerName,
+//       customerPhone, // ✅ include phone
+//       customerEmail,
+//       type: orderType,
+//       address: orderType === "delivery" ? deliveryAddress.trim() : nimahsShopAddress,
+//       date: orderType === "delivery" ? deliveryDate : pickupDate,
+//       time: orderType === "delivery" ? deliveryTime : pickupTime,
+//       items: cartItems.map(item => ({
+//         ...item,
+//         lineTotal: item.unitTotal, // ✅ ensures consistent totals
+//       })),
+//       total: grandTotal,
+//       paymentMethod: "Bank Transfer",
+//     };
+  
+//     try {
+//       const res = await fetch("/api/sendOrderEmail", {
+//         method: "POST",
+//         headers: { "Content-Type": "application/json" },
+//         body: JSON.stringify({
+//           customerName,
+//           customerEmail,
+//           customerPhone,  
+//           orderDetails,
+//         }),
+//       });
+  
+//       if (res.ok) {
+//         console.log("✅ Order Email Sent:", orderDetails);
+  
+//         clearCart();
+//         router.push("/thank-you");
+//       } else {
+//         const errText = await res.text();
+//         console.error("❌ Email send failed:", errText);
+//         alert("⚠️ Failed to send order. Try again.");
+//       }
+//     } catch (err) {
+//       console.error("❌ Error sending order:", err);
+//       alert("Something went wrong. Please try again.");
+//     }
+//   };
+  
+
+//   return (
+//     <div className="flex flex-col min-h-screen bg-gray-50">
+//       {/* Navbar */}
+//       <nav className="w-full bg-white shadow p-4 flex">
+//         <Image
+//           src="/Nimahhub.jpg"
+//           alt="Nimah Logo"
+//           width={60}
+//           height={50}
+//           className="object-contain"
+//         />
+//       </nav>
+
+//       {/* Main Content */}
+//       <main className="flex-grow max-w-4xl mx-auto p-6 py-10">
+//         <h1 className="text-3xl font-bold mb-6 text-center">Checkout</h1>
+
+//         {/* Customer Info */}
+//         <div className="border bg-white rounded-lg shadow p-6 mb-6">
+//           <h2 className="text-lg font-semibold mb-4">Customer Information</h2>
+//           <div className="grid gap-4 md:grid-cols-2">
+//             <input
+//               type="text"
+//               placeholder="Full Name"
+//               value={customerName}
+//               onChange={(e) => setCustomerName(e.target.value)}
+//               className="border p-3 rounded w-full"
+//               required
+//             />
+//             <input
+//               type="tel"
+//               placeholder="Phone Number"
+//               value={customerPhone}
+//               onChange={(e) => setCustomerPhone(e.target.value)}
+//               className="border p-3 rounded w-full"
+//               required
+//             />
+//             <input
+//               type="email"
+//               placeholder="Email Address"
+//               value={customerEmail}
+//               onChange={(e) => setCustomerEmail(e.target.value)}
+//               className="border p-3 rounded w-full md:col-span-2"
+            
+//             />
+//           </div>
+//         </div>
+
+//         {/* Order Type Selection */}
+//         <div className="border bg-white rounded-lg shadow p-6 mb-6">
+//           <h2 className="text-lg font-semibold mb-4">Order Type</h2>
+//           <div className="flex gap-6">
+//             <label className="flex items-center gap-2">
+//               <input
+//                 type="radio"
+//                 value="delivery"
+//                 checked={orderType === "delivery"}
+//                 onChange={() => setOrderType("delivery")}
+//                 required
+//               />
+//               Delivery
+//             </label>
+//             <label className="flex items-center gap-2">
+//               <input
+//                 type="radio"
+//                 value="pickup"
+//                 checked={orderType === "pickup"}
+//                 onChange={() => setOrderType("pickup")}
+//                 required
+//               />
+//               Pickup
+//             </label>
+//           </div>
+//         </div>
+
+//         {/* Delivery or Pickup Details */}
+//         {orderType === "delivery" && (
+//           <div className="border bg-white rounded-lg shadow p-6 mb-6">
+//             <h2 className="text-lg font-semibold mb-4">Delivery Details</h2>
+//             <textarea
+//               placeholder="Enter your delivery address"
+//               value={deliveryAddress}
+//               onChange={(e) => setDeliveryAddress(e.target.value)}
+//               className="w-full border p-3 rounded mb-4"
+//             />
+//             <div className="flex gap-4">
+//               <input
+//                 type="date"
+//                 value={deliveryDate}
+//                 onChange={(e) => setDeliveryDate(e.target.value)}
+//                 className="border p-3 rounded w-full"
+//               />
+//               <input
+//                 type="time"
+//                 value={deliveryTime}
+//                 onChange={(e) => setDeliveryTime(e.target.value)}
+//                 className="border p-3 rounded w-full"
+//               />
+//             </div>
+//           </div>
+//         )}
+
+//         {orderType === "pickup" && (
+//           <div className="border bg-white rounded-lg shadow p-6 mb-6">
+//             <h2 className="text-lg font-semibold mb-4">Pickup Details</h2>
+//             <p className="mb-3 text-gray-700">
+//               Pickup Address:{" "}
+//               <strong className="text-gray-900">{nimahsShopAddress}</strong>
+//             </p>
+//             <div className="flex gap-4">
+//               <input
+//                 type="date"
+//                 value={pickupDate}
+//                 onChange={(e) => setPickupDate(e.target.value)}
+//                 className="border p-3 rounded w-full"
+//                 required
+//               />
+//               <input
+//                 type="time"
+//                 value={pickupTime}
+//                 onChange={(e) => setPickupTime(e.target.value)}
+//                 className="border p-3 rounded w-full"
+//                 required
+//               />
+//             </div>
+//           </div>
+//         )}
+
+//         {/* Payment Section */}
+//         <div className="border bg-white rounded-lg shadow p-6 mb-6">
+//           <h2 className="text-lg font-semibold mb-3">Pay with Bank Transfer</h2>
+//           <p className="mb-1">
+//             <strong>Bank Name:</strong> GTBank
+//           </p>
+//           <p className="mb-1">
+//             <strong>Account Name:</strong> Nimah Cakes & Cuisine
+//           </p>
+//           <p className="mb-3">
+//             <strong>Account Number:</strong> 0123456789
+//           </p>
+//           <p className="text-red-600 font-medium">
+//             ⚠️ Please make sure you have made payments before placing your
+//             order.
+//           </p>
+//         </div>
+
+//         {/* Order Summary */}
+//         <div className="border bg-white rounded-lg shadow p-6 mb-6">
+//           <h2 className="text-lg font-semibold mb-3">Your Order</h2>
+//           {cartItems.length === 0 ? (
+//             <p>Your cart is empty.</p>
+//           ) : (
+//             <div>
+//               {cartItems.map((item) => (
+//                 <div key={item.id} className="flex justify-between mb-2">
+//                   <span>
+//                     {item.name} (x{item.quantity})
+//                   </span>
+//                   <span>₦{item.unitTotal.toLocaleString()}</span>
+//                 </div>
+//               ))}
+//               <hr className="my-2" />
+//               <div className="flex justify-between font-bold text-lg">
+//                 <span>Total</span>
+//                 <span>₦{grandTotal.toLocaleString()}</span>
+//               </div>
+//             </div>
+//           )}
+//         </div>
+
+//         {/* Actions */}
+//         <div className="mt-6">
+//           <button
+//             onClick={handlePlaceOrder}
+//             disabled={cartItems.length === 0}
+//             className="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg disabled:opacity-50 w-full text-lg font-semibold shadow"
+//           >
+//             Place Order
+//           </button>
+//         </div>
+//         <div className="mt-4 text-center">
+//           <Link
+//             href="/cart"
+//             className="text-red-600 hover:underline text-sm font-medium"
+//           >
+//             ← Back to Cart
+//           </Link>
+//         </div>
+//       </main>
+
+//       {/* Footer */}
+//       <footer className="text-center text-gray-500 text-sm mt-12 mb-4">
+//         &copy; {new Date().getFullYear()} Nimah&apos;s Cakes & Cuisine. All
+//         rights reserved.
+//       </footer>
+//     </div>
+//   );
+// }
+
+// "use client";
+// import { useState } from "react";
+// import { useCart } from "@/context/CartContext";
+// import Link from "next/link";
+// import Image from "next/image";
+// import { useRouter } from "next/navigation";
+
+// export default function CheckoutPage() {
+//   const { cartItems, grandTotal, clearCart } = useCart();
+//   const router = useRouter();
+
+//   const [orderType, setOrderType] = useState("delivery");
+//   const [deliveryAddress, setDeliveryAddress] = useState("");
+//   const [pickupDate, setPickupDate] = useState("");
+//   const [pickupTime, setPickupTime] = useState("");
+//   const [deliveryDate, setDeliveryDate] = useState("");
+//   const [deliveryTime, setDeliveryTime] = useState("");
+
+//   // 👉 New customer info states
+//   const [customerName, setCustomerName] = useState("");
+//   const [customerPhone, setCustomerPhone] = useState("");
+//   const [customerEmail, setCustomerEmail] = useState("");
+
+//   const nimahsShopAddress = "21, idowu mabadeje street valley view estate opposite waec office,Ikorodu Lagos. or type Nimah Cakes and Cuisine on the map for easy direction.";
+
+//   const handlePlaceOrder = async () => {
+//     // ✅ Basic validation
+//     if (!customerName.trim()) {
+//       alert("⚠️ Please enter your full name.");
+//       return;
+//     }
+//     if (!customerPhone.trim()) {
+//       alert("⚠️ Please enter your phone number.");
+//       return;
+//     }
+//     if (!customerEmail.trim()) {
+//       alert("⚠️ Please enter your email address.");
+//       return;
+//     }
+
+//     if (orderType === "delivery") {
+//       if (!deliveryAddress.trim()) {
+//         alert("⚠️ Please enter your delivery address.");
+//         return;
+//       }
+//       if (!deliveryDate || !deliveryTime) {
+//         alert("⚠️ Please select a delivery date and time.");
+//         return;
+//       }
+//     } else {
+//       if (!pickupDate || !pickupTime) {
+//         alert("⚠️ Please select a pickup date and time.");
+//         return;
+//       }
+//     }
+
+//     // ✅ All fields valid → build order
+//     const orderDetails = {
+//       customerName,
+//       customerPhone,
+//       customerEmail,
+//       type: orderType,
+//       address: orderType === "delivery" ? deliveryAddress.trim() : nimahsShopAddress,
+//       date: orderType === "delivery" ? deliveryDate : pickupDate,
+//       time: orderType === "delivery" ? deliveryTime : pickupTime,
+//       items: cartItems.map((item) => ({
+//         ...item,
+//         lineTotal: item.unitTotal,
+//       })),
+//       total: grandTotal,
+//       paymentMethod: "Bank Transfer",
+//     };
+
+//     try {
+//       const res = await fetch("/api/sendOrderEmail", {
+//         method: "POST",
+//         headers: { "Content-Type": "application/json" },
+//         body: JSON.stringify({
+//           customerName,
+//           customerEmail,
+//           customerPhone,
+//           orderDetails,
+//         }),
+//       });
+
+//       if (res.ok) {
+//         console.log("✅ Order Email Sent:", orderDetails);
+//         clearCart();
+//         router.push("/thank-you");
+//       } else {
+//         const errText = await res.text();
+//         console.error("❌ Email send failed:", errText);
+//         alert("⚠️ Failed to send order. Try again.");
+//       }
+//     } catch (err) {
+//       console.error("❌ Error sending order:", err);
+//       alert("Something went wrong. Please try again.");
+//     }
+//   };
+
+//   return (
+//     <div className="flex flex-col min-h-screen bg-gray-50">
+//       {/* Navbar */}
+//       <nav className="w-full bg-white shadow p-4 flex">
+//         <Image
+//           src="/Nimahhub.jpg"
+//           alt="Nimah Logo"
+//           width={60}
+//           height={50}
+//           className="object-contain"
+//         />
+//       </nav>
+
+//       {/* Main Content */}
+//       <main className="flex-grow max-w-4xl mx-auto p-6 py-10">
+//         <h1 className="text-3xl font-bold mb-6 text-center">Checkout</h1>
+
+//         {/* Customer Info */}
+//         <div className="border bg-white rounded-lg shadow p-6 mb-6">
+//           <h2 className="text-lg font-semibold mb-4">Customer Information</h2>
+//           <div className="grid gap-4 md:grid-cols-2">
+//             <input
+//               type="text"
+//               placeholder="Full Name"
+//               value={customerName}
+//               onChange={(e) => setCustomerName(e.target.value)}
+//               className="border p-3 rounded w-full"
+//               required
+//             />
+//             <input
+//               type="tel"
+//               placeholder="Phone Number"
+//               value={customerPhone}
+//               onChange={(e) => setCustomerPhone(e.target.value)}
+//               className="border p-3 rounded w-full"
+//               required
+//             />
+//             <input
+//               type="email"
+//               placeholder="Email Address"
+//               value={customerEmail}
+//               onChange={(e) => setCustomerEmail(e.target.value)}
+//               className="border p-3 rounded w-full md:col-span-2"
+//               required
+//             />
+//           </div>
+//         </div>
+
+//         {/* Order Type Selection */}
+//         <div className="border bg-white rounded-lg shadow p-6 mb-6">
+//           <h2 className="text-lg font-semibold mb-4">Order Type</h2>
+//           <div className="flex gap-6">
+//             <label className="flex items-center gap-2">
+//               <input
+//                 type="radio"
+//                 value="delivery"
+//                 checked={orderType === "delivery"}
+//                 onChange={() => setOrderType("delivery")}
+//               />
+//               Delivery
+//             </label>
+//             <label className="flex items-center gap-2">
+//               <input
+//                 type="radio"
+//                 value="pickup"
+//                 checked={orderType === "pickup"}
+//                 onChange={() => setOrderType("pickup")}
+//               />
+//               Pickup
+//             </label>
+//           </div>
+//         </div>
+
+//         {/* Delivery Details */}
+//         {orderType === "delivery" && (
+//           <div className="border bg-white rounded-lg shadow p-6 mb-6">
+//             <h2 className="text-lg font-semibold mb-4">Delivery Details</h2>
+//             <textarea
+//               placeholder="Enter your delivery address"
+//               value={deliveryAddress}
+//               onChange={(e) => setDeliveryAddress(e.target.value)}
+//               className="w-full border p-3 rounded mb-4"
+//             />
+//             <div className="flex gap-4">
+//               <input
+//                 type="date"
+//                 value={deliveryDate}
+//                 onChange={(e) => setDeliveryDate(e.target.value)}
+//                 className="border p-3 rounded w-full"
+//               />
+//               <input
+//                 type="time"
+//                 value={deliveryTime}
+//                 onChange={(e) => setDeliveryTime(e.target.value)}
+//                 className="border p-3 rounded w-full"
+//               />
+//             </div>
+//           </div>
+//         )}
+
+//         {/* Pickup Details */}
+//         {orderType === "pickup" && (
+//           <div className="border bg-white rounded-lg shadow p-6 mb-6">
+//             <h2 className="text-lg font-semibold mb-4">Pickup Details</h2>
+//             <p className="mb-3 text-gray-700">
+//               Pickup Address:{" "}
+//               <strong className="text-gray-900">{nimahsShopAddress}</strong>
+//             </p>
+//             <div className="flex gap-4">
+//               <input
+//                 type="date"
+//                 value={pickupDate}
+//                 onChange={(e) => setPickupDate(e.target.value)}
+//                 className="border p-3 rounded w-full"
+//               />
+//               <input
+//                 type="time"
+//                 value={pickupTime}
+//                 onChange={(e) => setPickupTime(e.target.value)}
+//                 className="border p-3 rounded w-full"
+//               />
+//             </div>
+//           </div>
+//         )}
+
+//         {/* Payment Section */}
+//         <div className="border bg-white rounded-lg shadow p-6 mb-6">
+//           <h2 className="text-lg font-semibold mb-3">Pay with Bank Transfer</h2>
+//           <p className="mb-1">
+//             <strong>Bank Name:</strong> GTBank
+//           </p>
+//           <p className="mb-1">
+//             <strong>Account Name:</strong> Nimah Cakes & Cuisine
+//           </p>
+//           <p className="mb-3">
+//             <strong>Account Number:</strong> 0472977915
+//           </p>
+//           <p className="text-red-600 font-medium">
+//             ⚠️ Please make sure you have made payments before placing an order.
+//           </p>
+//         </div>
+
+//         {/* Order Summary */}
+//         <div className="border bg-white rounded-lg shadow p-6 mb-6">
+//           <h2 className="text-lg font-semibold mb-3">Your Order</h2>
+//           {cartItems.length === 0 ? (
+//             <p>Your cart is empty.</p>
+//           ) : (
+//             <div>
+//               {cartItems.map((item) => (
+//                 <div key={item.id} className="flex justify-between mb-2">
+//                   <span>
+//                     {item.name} (x{item.quantity})
+//                   </span>
+//                   <span>₦{item.unitTotal.toLocaleString()}</span>
+//                 </div>
+//               ))}
+//               <hr className="my-2" />
+//               <div className="flex justify-between font-bold text-lg">
+//                 <span>Total</span>
+//                 <span>₦{grandTotal.toLocaleString()}</span>
+//               </div>
+//             </div>
+//           )}
+//         </div>
+
+//         {/* Place Order Button */}
+//         <div className="mt-6">
+//           <button
+//             onClick={handlePlaceOrder}
+//             disabled={cartItems.length === 0}
+//             className="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg disabled:opacity-50 w-full text-lg font-semibold shadow"
+//           >
+//             Place Order
+//           </button>
+//         </div>
+
+//         <div className="mt-4 text-center">
+//           <Link
+//             href="/cart"
+//             className="text-red-600 hover:underline text-sm font-medium"
+//           >
+//             ← Back to Cart
+//           </Link>
+//         </div>
+//       </main>
+
+//       {/* Footer */}
+//       <footer className="text-center text-gray-500 text-sm mt-12 mb-4">
+//         &copy; {new Date().getFullYear()} Nimah&apos;s Cakes & Cuisine. All rights reserved.
+//       </footer>
+//     </div>
+//   )
+// }
+
 "use client";
 import { useState } from "react";
 import { useCart } from "@/context/CartContext";
 import Link from "next/link";
 import Image from "next/image";
-import { useRouter } from "next/navigation"; // 👈 Add this
+import { useRouter } from "next/navigation";
 
 export default function CheckoutPage() {
   const { cartItems, grandTotal, clearCart } = useCart();
-  const router = useRouter(); // 👈 initialize router
+  const router = useRouter();
 
   const [orderType, setOrderType] = useState("delivery");
   const [deliveryAddress, setDeliveryAddress] = useState("");
@@ -603,16 +1387,50 @@ export default function CheckoutPage() {
   const [deliveryDate, setDeliveryDate] = useState("");
   const [deliveryTime, setDeliveryTime] = useState("");
 
-  const nimahsShopAddress = "123 Nimah Street, Lagos, Nigeria";
+  const [customerName, setCustomerName] = useState("");
+  const [customerPhone, setCustomerPhone] = useState("");
 
-  // ✅ Updated async function with email sending
+  const nimahsShopAddress =
+    "21, idowu mabadeje street valley view estate opposite waec office, Ikorodu Lagos. Or type Nimah Cakes and Cuisine on the map for easy direction.";
+
   const handlePlaceOrder = async () => {
+    if (!customerName.trim()) {
+      alert("⚠️ Please enter your full name.");
+      return;
+    }
+    if (!customerPhone.trim()) {
+      alert("⚠️ Please enter your phone number.");
+      return;
+    }
+
+    if (orderType === "delivery") {
+      if (!deliveryAddress.trim()) {
+        alert("⚠️ Please enter your delivery address.");
+        return;
+      }
+      if (!deliveryDate || !deliveryTime) {
+        alert("⚠️ Please select a delivery date and time.");
+        return;
+      }
+    } else {
+      if (!pickupDate || !pickupTime) {
+        alert("⚠️ Please select a pickup date and time.");
+        return;
+      }
+    }
+
     const orderDetails = {
+      customerName,
+      customerPhone,
       type: orderType,
-      address: orderType === "delivery" ? deliveryAddress : nimahsShopAddress,
+      address:
+        orderType === "delivery" ? deliveryAddress.trim() : nimahsShopAddress,
       date: orderType === "delivery" ? deliveryDate : pickupDate,
       time: orderType === "delivery" ? deliveryTime : pickupTime,
-      items: cartItems,
+      items: cartItems.map((item) => ({
+        ...item,
+        lineTotal: item.unitTotal,
+      })),
       total: grandTotal,
       paymentMethod: "Bank Transfer",
     };
@@ -622,18 +1440,19 @@ export default function CheckoutPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          customerName: "", // 👉 later you can collect from form input
-          customerEmail: "alagbadamalik@email.com", // 👉 replace with real input later
+          customerName,
+          customerPhone,
           orderDetails,
         }),
       });
 
       if (res.ok) {
         console.log("✅ Order Email Sent:", orderDetails);
-
-        clearCart(); // clear cart after successful send
-        router.push("/thank-you"); // redirect after placing order
+        clearCart();
+        router.push("/thank-you");
       } else {
+        const errText = await res.text();
+        console.error("❌ Email send failed:", errText);
         alert("⚠️ Failed to send order. Try again.");
       }
     } catch (err) {
@@ -643,9 +1462,9 @@ export default function CheckoutPage() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-gray-50">
       {/* Navbar */}
-      <nav className="w-full bg-white shadow-sm p-4 flex">
+      <nav className="w-full bg-white shadow p-4 flex">
         <Image
           src="/Nimahhub.jpg"
           alt="Nimah Logo"
@@ -657,83 +1476,111 @@ export default function CheckoutPage() {
 
       {/* Main Content */}
       <main className="flex-grow max-w-4xl mx-auto p-6 py-10">
-        <h1 className="text-2xl font-bold mb-4">Checkout</h1>
+        <h1 className="text-3xl font-bold mb-6 text-center">Checkout</h1>
 
-        {/* Order Type Selection */}
-        <div className="mb-4">
-          <label className="mr-4">
+        {/* Customer Info */}
+        <div className="border bg-white rounded-lg shadow p-6 mb-6">
+          <h2 className="text-lg font-semibold mb-4">Customer Information</h2>
+          <div className="grid gap-4 md:grid-cols-2">
             <input
-              type="radio"
-              value="delivery"
-              checked={orderType === "delivery"}
-              onChange={() => setOrderType("delivery")}
-            />{" "}
-            Delivery
-          </label>
-          <label>
+              type="text"
+              placeholder="Full Name"
+              value={customerName}
+              onChange={(e) => setCustomerName(e.target.value)}
+              className="border p-3 rounded w-full"
+              required
+            />
             <input
-              type="radio"
-              value="pickup"
-              checked={orderType === "pickup"}
-              onChange={() => setOrderType("pickup")}
-            />{" "}
-            Pickup
-          </label>
+              type="tel"
+              placeholder="Phone Number"
+              value={customerPhone}
+              onChange={(e) => setCustomerPhone(e.target.value)}
+              className="border p-3 rounded w-full"
+              required
+            />
+          </div>
         </div>
 
-        {/* Conditional Forms */}
+        {/* Order Type Selection */}
+        <div className="border bg-white rounded-lg shadow p-6 mb-6">
+          <h2 className="text-lg font-semibold mb-4">Order Type</h2>
+          <div className="flex gap-6">
+            <label className="flex items-center gap-2">
+              <input
+                type="radio"
+                value="delivery"
+                checked={orderType === "delivery"}
+                onChange={() => setOrderType("delivery")}
+              />
+              Delivery
+            </label>
+            <label className="flex items-center gap-2">
+              <input
+                type="radio"
+                value="pickup"
+                checked={orderType === "pickup"}
+                onChange={() => setOrderType("pickup")}
+              />
+              Pickup
+            </label>
+          </div>
+        </div>
+
+        {/* Delivery Details */}
         {orderType === "delivery" && (
-          <div className="mb-4">
-            <h2 className="text-lg font-semibold">Delivery Details</h2>
+          <div className="border bg-white rounded-lg shadow p-6 mb-6">
+            <h2 className="text-lg font-semibold mb-4">Delivery Details</h2>
             <textarea
               placeholder="Enter your delivery address"
               value={deliveryAddress}
               onChange={(e) => setDeliveryAddress(e.target.value)}
-              className="w-full border p-2 rounded my-2"
+              className="w-full border p-3 rounded mb-4"
             />
             <div className="flex gap-4">
               <input
                 type="date"
                 value={deliveryDate}
                 onChange={(e) => setDeliveryDate(e.target.value)}
-                className="border p-2 rounded"
+                className="border p-3 rounded w-full"
               />
               <input
                 type="time"
                 value={deliveryTime}
                 onChange={(e) => setDeliveryTime(e.target.value)}
-                className="border p-2 rounded"
+                className="border p-3 rounded w-full"
               />
             </div>
           </div>
         )}
 
+        {/* Pickup Details */}
         {orderType === "pickup" && (
-          <div className="mb-4">
-            <h2 className="text-lg font-semibold">Pickup Details</h2>
-            <p className="mb-2">
-              Pickup Address: <strong>{nimahsShopAddress}</strong>
+          <div className="border bg-white rounded-lg shadow p-6 mb-6">
+            <h2 className="text-lg font-semibold mb-4">Pickup Details</h2>
+            <p className="mb-3 text-gray-700">
+              Pickup Address:{" "}
+              <strong className="text-gray-900">{nimahsShopAddress}</strong>
             </p>
             <div className="flex gap-4">
               <input
                 type="date"
                 value={pickupDate}
                 onChange={(e) => setPickupDate(e.target.value)}
-                className="border p-2 rounded"
+                className="border p-3 rounded w-full"
               />
               <input
                 type="time"
                 value={pickupTime}
                 onChange={(e) => setPickupTime(e.target.value)}
-                className="border p-2 rounded"
+                className="border p-3 rounded w-full"
               />
             </div>
           </div>
         )}
 
         {/* Payment Section */}
-        <div className="border p-4 rounded mb-4 bg-gray-50">
-          <h2 className="text-lg font-semibold mb-2">Pay with Bank Transfer</h2>
+        <div className="border bg-white rounded-lg shadow p-6 mb-6">
+          <h2 className="text-lg font-semibold mb-3">Pay with Bank Transfer</h2>
           <p className="mb-1">
             <strong>Bank Name:</strong> GTBank
           </p>
@@ -741,17 +1588,16 @@ export default function CheckoutPage() {
             <strong>Account Name:</strong> Nimah Cakes & Cuisine
           </p>
           <p className="mb-3">
-            <strong>Account Number:</strong> 0123456789
+            <strong>Account Number:</strong> 0472977915
           </p>
           <p className="text-red-600 font-medium">
-            ⚠️ Please make sure you have made payments before clicking on Place
-            Order.
+            ⚠️ Please make sure you have made payments before placing an order.
           </p>
         </div>
 
         {/* Order Summary */}
-        <div className="border p-4 rounded mb-4">
-          <h2 className="text-lg font-semibold mb-2">Your Order</h2>
+        <div className="border bg-white rounded-lg shadow p-6 mb-6">
+          <h2 className="text-lg font-semibold mb-3">Your Order</h2>
           {cartItems.length === 0 ? (
             <p>Your cart is empty.</p>
           ) : (
@@ -765,7 +1611,7 @@ export default function CheckoutPage() {
                 </div>
               ))}
               <hr className="my-2" />
-              <div className="flex justify-between font-bold">
+              <div className="flex justify-between font-bold text-lg">
                 <span>Total</span>
                 <span>₦{grandTotal.toLocaleString()}</span>
               </div>
@@ -773,30 +1619,29 @@ export default function CheckoutPage() {
           )}
         </div>
 
-        {/* Actions */}
-        <div className="py-4 mt-7">
+        {/* Place Order Button */}
+        <div className="mt-6">
           <button
             onClick={handlePlaceOrder}
             disabled={cartItems.length === 0}
-            className="bg-red-600 text-white px-6 py-2 rounded-lg disabled:opacity-50 w-full"
+            className="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg disabled:opacity-50 w-full text-lg font-semibold shadow"
           >
             Place Order
           </button>
         </div>
-        <div>
+
+        <div className="mt-4 text-center">
           <Link
             href="/cart"
-            className="text-red-600 items-center justify-center flex underline"
+            className="text-red-600 hover:underline text-sm font-medium"
           >
             ← Back to Cart
           </Link>
         </div>
       </main>
 
-      {/* Footer */}
       <footer className="text-center text-gray-500 text-sm mt-12 mb-4">
-        &copy; {new Date().getFullYear()} Nimah&apos;s Cakes & Cuisine. All
-        rights reserved.
+        &copy; {new Date().getFullYear()} Nimah&apos;s Cakes & Cuisine. All rights reserved.
       </footer>
     </div>
   );
